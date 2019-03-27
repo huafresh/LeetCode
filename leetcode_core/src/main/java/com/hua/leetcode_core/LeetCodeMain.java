@@ -9,7 +9,7 @@ public class LeetCodeMain {
 
     /**
      * 宝石与石头
-     * https://leetcode-cn.com/problems/jewels-and-stones/
+     * <a href = "https://leetcode-cn.com/problems/jewels-and-stones/">宝石与石头</a>
      */
     public int numJewelsInStones(String strJ, String strS) {
         int count = 0;
