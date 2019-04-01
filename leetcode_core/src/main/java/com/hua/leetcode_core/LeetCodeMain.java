@@ -103,4 +103,45 @@ public class LeetCodeMain {
     }
 
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/delete-node-in-a-linked-list/">删除链表中的节点</a>
+     * 说明：
+     * 链表至少包含两个节点。
+     * 链表中所有节点的值都是唯一的。
+     * 给定的节点为非末尾节点并且一定是链表中的一个有效节点。
+     * 不要从你的函数中返回任何结果。
+     *
+     * 批注：开始觉得是不是没给root节点，其实是故意的，正是此题用意。
+     */
+    public void deleteNode(ListNode node) {
+//        ListNode curNode = node;
+//        ListNode next = curNode.next;
+//        ListNode pre = null;
+//        while (next != null) {
+//            curNode.val = next.val;
+//            pre = curNode;
+//            curNode = next;
+//            next = curNode.next;
+//        }
+//
+//        if (pre != null) {
+//            pre.next = null;
+//        }
+
+        //以上注释是开始的解法，看了评论才发现其实没必要所有节点值都进行移动，
+        //只需改变当前节点的next指向next的next就行了。
+        node.val = node.next.val;
+        node.next = node.next.next;
+
+
+    }
+
+    class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
 }
