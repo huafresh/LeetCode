@@ -110,7 +110,7 @@ public class LeetCodeMain {
      * 链表中所有节点的值都是唯一的。
      * 给定的节点为非末尾节点并且一定是链表中的一个有效节点。
      * 不要从你的函数中返回任何结果。
-     *
+     * <p>
      * 批注：开始觉得是不是没给root节点，其实是故意的，正是此题用意。
      */
     public void deleteNode(ListNode node) {
@@ -143,5 +143,49 @@ public class LeetCodeMain {
         ListNode(int x) {
             val = x;
         }
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/flipping-an-image/">翻转图像</a>
+     * 二维数组，先水平翻转，再所有元素取反
+     * 输入: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+     * 输出: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+     */
+    public int[][] flipAndInvertImage(int[][] a) {
+        int len = a.length;
+        int left, right, temp;
+        for (int row = 0; row < len; row++) {
+            left = 0;
+            right = len - 1;
+            while (left < right) {
+                temp = a[row][left];
+                a[row][left] = invertInt(a[row][right]);
+                a[row][right] = invertInt(temp);
+                left++;
+                right--;
+            }
+            if (left == right) {
+                a[row][left] = invertInt(a[row][left]);
+            }
+        }
+
+        return a;
+
+        //以下是评论区解法，看起来是更简洁，但是多了一倍的内存
+
+//        if(a == null || a.length == 0) return new int[0][0];
+//        int len = a.length;
+//        int[][] ans = new int[len][len];
+//
+//        for(int i = 0; i < len; i++){
+//            for(int j = 0; j < len; j++){
+//                ans[i][j] = a[i][len-1-j] ^ 1;
+//            }
+//        }
+//        return ans;
+    }
+
+    private static int invertInt(int value) {
+        return value ^ 1;
     }
 }
