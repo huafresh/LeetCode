@@ -1,5 +1,9 @@
 package com.hua.leetcode_core;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class LeetCodeMain {
 
     public static void main(String[] args) {
@@ -188,4 +192,34 @@ public class LeetCodeMain {
     private static int invertInt(int value) {
         return value ^ 1;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/unique-morse-code-words/submissions/">摩尔斯密码词</a>
+     * 解题关键：
+     * 1、利用HashSet去重
+     * 2、字母的ascII码记不住时可用字符代替
+     */
+    public int uniqueMorseRepresentations(String[] words) {
+        final HashSet<String> set = new HashSet<>();
+        for (String word : words) {
+            //翻译成摩尔斯密码
+            final StringBuilder morsePwdStrBuilder = new StringBuilder();
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                morsePwdStrBuilder.append(MORSE_PWD[c - 'a']);
+            }
+            final String morsePwdStr = morsePwdStrBuilder.toString();
+
+            //加入set即可，内部会判断去重
+            set.add(morsePwdStr);
+        }
+
+        return set.size();
+    }
+
+    private static final String[] MORSE_PWD = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.",
+            "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-",
+            ".--", "-..-", "-.--", "--.."};
+
+
 }
