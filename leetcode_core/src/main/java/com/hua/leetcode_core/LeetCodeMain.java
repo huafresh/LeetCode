@@ -222,4 +222,35 @@ public class LeetCodeMain {
             ".--", "-..-", "-.--", "--.."};
 
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/unique-email-addresses/">独特的电子邮件地址</a>
+     * 此题与上一题比较类似，都是借助set去重。
+     */
+    public int numUniqueEmails(String[] emails) {
+        //思路：把邮件按题中规则进行转换，然后加入HashSet即可。
+
+        final HashSet<String> set = new HashSet<String>();
+
+        for (String email : emails) {
+            String[] splits = email.split("@");
+            String local = splits[0];
+            final String domain = splits[1];
+            //去本地名称点号
+            local = local.replace(".", "");
+            //去本地名称+号
+            int firstIndex = local.indexOf("+");
+            if (firstIndex > 0) {
+                local = local.substring(0, firstIndex);
+            }
+
+            set.add(local + "@" + domain);
+        }
+
+        return set.size();
+
+    }
 }
+
+
+
+
