@@ -249,6 +249,43 @@ public class LeetCodeMain {
         return set.size();
 
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/di-string-match/submissions/">增减字符串匹配</a>
+     * 给定只含 "I"（增大）或 "D"（减小）的字符串 s ，令 N = s.length。
+     * 返回 [0, 1, ..., N] 的任意排列 A 使得对于所有 i = 0, ..., N-1，都有：
+     * 如果 s[i] == "I"，那么 A[i] < A[i+1]
+     * 如果 s[i] == "D"，那么 A[i] > A[i+1]
+     * <p>
+     * 示例：
+     * 输出："IDID"
+     * 输出：[0,4,1,3,2]
+     * <p>
+     * 比如i=0，那么s[i]='I'，因此A[0]<A[1]，即0<4，依次类推
+     */
+    public int[] diStringMatch(String s) {
+
+        //观察示例可知：每次遇I则取最小值，遇D则取最大值
+        //输出的序列虽不能保证是唯一满足条件的，但是却是绝对符合题意的
+
+        int len = s.length();
+        int curMin = 0;
+        int curMax = len;
+        int[] result = new int[len + 1];
+        int index = 0;
+        for (index = 0; index < len; index++) {
+            char c = s.charAt(index);
+            if (c == 'I') {
+                result[index] = curMin++;
+            } else {
+                result[index] = curMax--;
+            }
+        }
+
+        result[index] = curMin;
+
+        return result;
+    }
 }
 
 
