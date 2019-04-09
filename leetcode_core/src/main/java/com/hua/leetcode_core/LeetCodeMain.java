@@ -422,6 +422,28 @@ public class LeetCodeMain {
         }
     }
 
+
+    private static final int INTEGER_MAX_BIT = 32;
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/hamming-distance/comments/">汉明距离</a>
+     * 此题答的比较low，可以学习看下JDK的Integer.bitCount方法的实现
+     */
+    public int hammingDistance(int x, int y) {
+        //题目可转化为求给定二进制数“1”的个数。
+
+        final int xor = x ^ y;
+        int distance = 0;
+
+        for (int i = 0; i < INTEGER_MAX_BIT; i++) {
+            if (((xor >>> i) & 1) == 1) {
+                distance++;
+            }
+        }
+
+        return distance;
+    }
+
 }
 
 
