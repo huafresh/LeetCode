@@ -1,8 +1,6 @@
 package com.hua.leetcode_core;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 public class LeetCodeMain {
 
@@ -286,6 +284,144 @@ public class LeetCodeMain {
 
         return result;
     }
+
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/robot-return-to-origin/">机器人能否返回原点</a>
+     */
+    public boolean judgeCircle(String moves) {
+        final int[] position = new int[]{0, 0};
+
+        for (int i = 0; i < moves.length(); i++) {
+            char c = moves.charAt(i);
+            switch (c) {
+                case 'R':
+                    position[0] -= 1;
+                    break;
+                case 'L':
+                    position[0] += 1;
+                    break;
+                case 'U':
+                    position[1] += 1;
+                    break;
+                case 'D':
+                    position[1] -= 1;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return position[0] == 0 && position[1] == 0;
+    }
+
+
+    private static final int INVALID_VALUE = -1;
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/merge-two-binary-trees/submissions/">合并二叉树</a>
+     * 解此题也可谓一波三折，主要是开始思路不对。
+     */
+    public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
+        //选择一个二叉树周游的方式，在同一时间对两个二叉树合并，然后结果存于某课二叉树即可。
+        //题意要从根节点开始，因此选在中序遍历。对于中序遍历，节点入栈顺序即为中序遍历顺序。
+
+        //注意：上述思路是不对的，因为两棵树各自遍历，根本无法做合并。
+        //正解应该是层序遍历，为空也放入队列。
+
+//         final Stack<TreeNode> stack1 = new Stack<>();
+//         final Stack<TreeNode> stack2 = new Stack<>();
+
+//         TreeNode curNode1 = t1;
+//         while(curNode1!=null || !stack1.isEmpty()){
+
+//             while(curNode1!=null){
+//                 stack1.push(curNode1);
+//                 curNode1 = curNode1.left;
+//             }
+
+//             if(!stack1.isEmpty()){
+//                 TreeNode top = stack1.pop();
+//                 curNode1 = top.right;
+//             }
+//         }
+
+
+//        final Queue<TreeNode> queue1 = new LinkedBlockingQueue<>();
+//        final Queue<TreeNode> queue2 = new LinkedBlockingQueue<>();
+//
+//        queue1.add(t1);
+//        queue2.add(t2);
+//
+//        TreeNode node1 = null;
+//        TreeNode node2 = null;
+//        while (!queue1.isEmpty()) {
+//            node1 = queue1.poll();
+//            node2 = queue2.poll();
+//
+//            node1.val = nodeValue(node1) + nodeValue(node2);
+//
+//            if (node1.val != INVALID_VALUE) {
+//                if (node1.left != null) {
+//                    queue1.add(node1.left);
+//                } else {
+//                    queue1.add(new TreeNode(INVALID_VALUE));
+//                }
+//
+//                if (node1.right != null) {
+//                    queue1.add(node1.right);
+//                } else {
+//                    queue1.add(new TreeNode(INVALID_VALUE));
+//                }
+//            }
+//
+//
+//            if (node2.val != INVALID_VALUE) {
+//                if (node2.left != null) {
+//                    queue2.add(node2.left);
+//                } else {
+//                    queue2.add(new TreeNode(INVALID_VALUE));
+//                }
+//
+//
+//                if (node2.left != null) {
+//                    queue2.add(node2.left);
+//                } else {
+//                    queue2.add(new TreeNode(INVALID_VALUE));
+//                }
+//            }
+//        }
+
+        //上述层序遍历的解法没验证，因为网站上总是报LinkedBlockingQueue不存在，可能是网站预判了解法，所以没导入？？
+        //最后看了评论，大概知道解法是递归，于是有了下面的代码。
+
+        if (t1 == null) {
+            return t2;
+        } else if (t2 == null) {
+            return t1;
+        } else {
+            t1.val = t1.val + t2.val;
+            t1.left = mergeTrees(t1.left, t2.left);
+            t1.right = mergeTrees(t1.right, t2.right);
+            return t1;
+        }
+
+    }
+
+    private static int nodeValue(TreeNode node) {
+        return node.val == INVALID_VALUE ? 0 : node.val;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
+
 }
 
 
