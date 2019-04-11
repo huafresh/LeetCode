@@ -8,6 +8,9 @@ public class LeetCodeMain {
         int[] array = new int[]{-9, -7, -5, -3, -1, 2, 4, 4, 7, 10};
         int[] result = new LeetCodeMain().sortedSquares(array);
         System.out.println("end sort");
+
+        int[] a1 = new int[]{3, 1, 2, 4};
+        int[] result2 = new LeetCodeMain().sortArrayByParity(a1);
     }
 
 
@@ -442,6 +445,50 @@ public class LeetCodeMain {
         }
 
         return distance;
+    }
+
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/sort-array-by-parity/comments/">按奇偶排序数组</a>
+     */
+    public int[] sortArrayByParity(int[] a) {
+        //思路：像快速排序那样，两边遍历，偶数放左边，奇数放右边，最后一个放空位上。
+        final int len = a.length;
+        int temp = a[len - 1];
+        int left = 0, right = len - 1;
+
+        while (true) {
+
+            while (left < right) {
+                if (!isOuShu(a[left])) {
+                    a[right] = a[left];
+                    right--;
+                    break;
+                }
+                left++;
+            }
+
+            while (left < right) {
+                if (isOuShu(a[right])) {
+                    a[left] = a[right];
+                    left++;
+                    break;
+                }
+                right--;
+            }
+
+            if (left == right) {
+                a[left] = temp;
+                break;
+            }
+
+        }
+        return a;
+    }
+
+
+    private static boolean isOuShu(int value) {
+        return value % 2 == 0;
     }
 
 }
