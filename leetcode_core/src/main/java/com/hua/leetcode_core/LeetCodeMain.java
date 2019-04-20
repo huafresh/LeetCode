@@ -1,6 +1,9 @@
 package com.hua.leetcode_core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Stack;
 
 public class LeetCodeMain {
 
@@ -490,6 +493,56 @@ public class LeetCodeMain {
     private static boolean isOuShu(int value) {
         return value % 2 == 0;
     }
+
+
+    /**
+     * 去掉外层括号。
+     */
+    public String removeOuterParentheses(String s) {
+
+        //咋一看题意较难理解：其实输入就是一连串的括号，我们要做的就是把外面的括号去掉
+        //以示例来理解：输入："(( )( ))  (( ))  (( )(( )))"
+        //比如第一段，是一个外层括号包含了两个内层括号，所以是可以去掉的
+        //前面两段都好理解，最后一段不太一样，我们把外层括号去掉后就是：()(())
+        //此时，后半段也是外层括号包裹内层括号，是不是也可以去掉呢？
+        //答案是不行的，因为去外层括号首先要做分解，这里如果做分解的话，前面一对括号是没外层括号可以去掉的，
+        //因此该段就是题中的原语
+
+        //后话：提交后发现题意没那么复杂，只需做一次分解即可
+
+        //后后话：想整理下代码再提交，怎么leetCode上题目都没了。。。。。。
+
+        //理解了题意，那么解题思路就是：基于栈，当遇到“（”时入栈，“）”时出栈，栈空时即得到一个分解后的字串，
+        //然后去外层括号，如此往复，直至无外层括号可去。
+
+        final Stack<Character> stack = new Stack<>();
+        final List<String> list = new ArrayList<>();
+        int start = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (c == '(') {
+                stack.push(c);
+            } else {
+                stack.pop();
+            }
+
+            if (stack.isEmpty()) {
+                String str = s.substring(start, i + 1);
+                list.add(str);
+                start = i + 1;
+            }
+        }
+
+        //以上得到了分解后的列表，接下来是去括号
+        StringBuilder builder = new StringBuilder();
+        for (String item : list) {
+            builder.append(item, 1, item.length() - 1);
+        }
+        return builder.toString();
+    }
+
 
 }
 
