@@ -543,6 +543,35 @@ public class LeetCodeMain {
         return builder.toString();
     }
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/invert-binary-tree/submissions/">翻转二叉树</a>
+     */
+    public TreeNode invertTree(TreeNode root) {
+        //首先想到的就是递归
+        //写递归代码有两个要点：
+        //1、假设完成
+        //2、递归终止
+
+        //递归终止
+        if (root == null) {
+            return root;
+        }
+
+        //假设方法能完成左右子树的翻转
+        if (root.left != null) {
+            invertTree(root.left);
+        }
+        if (root.right != null) {
+            invertTree(root.right);
+        }
+
+        //翻转左右孩子
+        TreeNode node = root.left;
+        root.left = root.right;
+        root.right = node;
+
+        return root;
+    }
 
 }
 
