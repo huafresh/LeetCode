@@ -2,8 +2,11 @@ package com.hua.leetcode_core;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class LeetCodeMain {
 
@@ -572,6 +575,45 @@ public class LeetCodeMain {
 
         return root;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/comments/">二叉树最大深度</a>
+     */
+    public int maxDepth(TreeNode root) {
+        //求二叉树最大深度，用层序遍历即可
+
+        int level = 0;
+        int count = 0;
+        //final Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        //用队列是最好的，但是leetcode网站不认识LinkedBlockingQueue这个类
+        //PS:LinkedList貌似可以当队列用！！！
+        final LinkedList<TreeNode> queue = new LinkedList<>();
+
+        if (root != null) {
+            queue.addLast(root);
+        }
+
+        TreeNode curNode = null;
+        while (!queue.isEmpty()) {
+            count = queue.size();
+            while (count > 0) {
+                curNode = queue.pollFirst();
+                if (curNode != null) {
+                    if (curNode.left != null) {
+                        queue.addLast(curNode.left);
+                    }
+                    if (curNode.right != null) {
+                        queue.addLast(curNode.right);
+                    }
+                }
+                count--;
+            }
+            level++;
+        }
+
+        return level;
+    }
+
 
 }
 
