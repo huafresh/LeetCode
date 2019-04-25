@@ -614,6 +614,75 @@ public class LeetCodeMain {
         return level;
     }
 
+    public boolean canWinNim(int n) {
+        //思路：每次拿掉1～3块石头，有点像二叉树的分叉（当然这里应该是三叉树），
+        //如果对给定数值建立三叉树，当节点值<=3时停止分叉，那么最终树的高度是偶数则输，奇数则赢
+        //可以在建树的过程就计算树的高度，减少遍历次数
+
+        final Queue<Node> queue = new LinkedList();
+
+        queue.add(new Node(n));
+        int level = 0, count = 0;
+        Node curNode;
+
+        while (!queue.isEmpty()) {
+            count = queue.size();
+            while (count > 0) {
+                curNode = queue.poll();
+                if (curNode.value > 3) {
+                    //这里我们建立的“树”没有子树，是因为解此题并不需要
+                    //但是思路上要有树的概念
+                    queue.add(new Node(curNode.value - 1));
+                    queue.add(new Node(curNode.value - 2));
+                    queue.add(new Node(curNode.value - 3));
+                } else if (isWin(level)) {
+                    return true;
+                }
+                count--;
+            }
+            level++;
+        }
+        System.out.println(level);
+        return false;
+
+    }
+
+    private static boolean isWin(int level) {
+        return level % 2 != 0;
+    }
+
+    private static class Node {
+        private int value;
+
+        Node(int value) {
+            this.value = value;
+        }
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/peak-index-in-a-mountain-array/comments/">山脉数组的峰值索引</a>
+     */
+    public int peakIndexInMountainArray(int[] a) {
+        //峰值应该就是唯一的啊，为什么题中说“任何满足”呢？
+        //计算峰值索引直接遍历找最大值不就行了吗？不会这么简单吧？？？
+
+        final int len = a.length;
+        int max = a[0];
+        int i = 1;
+        for (; i < len; i++) {
+            if (a[i] > max) {
+                max = a[i];
+            } else {
+                //到顶
+                break;
+            }
+        }
+
+        //maybe此题的意义在于二分法提高效率？
+
+        return i - 1;
+
+    }
 
 }
 
