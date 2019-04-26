@@ -614,36 +614,43 @@ public class LeetCodeMain {
         return level;
     }
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/nim-game/submissions/">Nim游戏</a>
+     */
     public boolean canWinNim(int n) {
         //思路：每次拿掉1～3块石头，有点像二叉树的分叉（当然这里应该是三叉树），
         //如果对给定数值建立三叉树，当节点值<=3时停止分叉，那么最终树的高度是偶数则输，奇数则赢
         //可以在建树的过程就计算树的高度，减少遍历次数
 
-        final Queue<Node> queue = new LinkedList();
+//        final Queue<Node> queue = new LinkedList();
+//
+//        queue.add(new Node(n));
+//        int level = 0, count = 0;
+//        Node curNode;
+//
+//        while (!queue.isEmpty()) {
+//            count = queue.size();
+//            while (count > 0) {
+//                curNode = queue.poll();
+//                if (curNode.value > 3) {
+//                    //这里我们建立的“树”没有子树，是因为解此题并不需要
+//                    //但是思路上要有树的概念
+//                    queue.add(new Node(curNode.value - 1));
+//                    queue.add(new Node(curNode.value - 2));
+//                    queue.add(new Node(curNode.value - 3));
+//                } else if (isWin(level)) {
+//                    return true;
+//                }
+//                count--;
+//            }
+//            level++;
+//        }
+//        System.out.println(level);
+//        return false;
 
-        queue.add(new Node(n));
-        int level = 0, count = 0;
-        Node curNode;
+        //后话：此题知道巴什博弈就很简单
 
-        while (!queue.isEmpty()) {
-            count = queue.size();
-            while (count > 0) {
-                curNode = queue.poll();
-                if (curNode.value > 3) {
-                    //这里我们建立的“树”没有子树，是因为解此题并不需要
-                    //但是思路上要有树的概念
-                    queue.add(new Node(curNode.value - 1));
-                    queue.add(new Node(curNode.value - 2));
-                    queue.add(new Node(curNode.value - 3));
-                } else if (isWin(level)) {
-                    return true;
-                }
-                count--;
-            }
-            level++;
-        }
-        System.out.println(level);
-        return false;
+        return n % 4 != 0;
 
     }
 
