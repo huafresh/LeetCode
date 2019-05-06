@@ -11,12 +11,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class LeetCodeMain {
 
     public static void main(String[] args) {
-        int[] array = new int[]{-9, -7, -5, -3, -1, 2, 4, 4, 7, 10};
-        int[] result = new LeetCodeMain().sortedSquares(array);
-        System.out.println("end sort");
+//        int[] array = new int[]{-9, -7, -5, -3, -1, 2, 4, 4, 7, 10};
+//        int[] result = new LeetCodeMain().sortedSquares(array);
+//        System.out.println("end sort");
+//
+//        int[] a1 = new int[]{3, 1, 2, 4};
+//        int[] result2 = new LeetCodeMain().sortArrayByParity(a1);
 
-        int[] a1 = new int[]{3, 1, 2, 4};
-        int[] result2 = new LeetCodeMain().sortArrayByParity(a1);
+        List<Integer> list = new LeetCodeMain().selfDividingNumbers(21, 22);
+
     }
 
 
@@ -691,6 +694,44 @@ public class LeetCodeMain {
 
     }
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/self-dividing-numbers/">自除数</a>
+     */
+    public List<Integer> selfDividingNumbers(int left, int right) {
+
+        //遍历，分解，判断是否是自除数。
+        //这么简单？？？
+
+        final List<Integer> result = new ArrayList<>();
+
+        boolean isSelfDivider;
+        int temp;
+        for (int i = left; i <= right; i++) {
+            isSelfDivider = true;
+            temp = i;
+            while ((temp % 10 > 0) || (temp / 10 > 0)) {
+                if (!isCanDivided(i, temp % 10)) {
+                    isSelfDivider = false;
+                    break;
+                }
+                temp /= 10;
+            }
+            if (isSelfDivider) {
+                result.add(i);
+            }
+        }
+
+        //以上代码写的比较简陋，但是思路和评论区是一致的，只用了一趟遍历，应该是效率最高的
+
+        return result;
+    }
+
+    private static boolean isCanDivided(int value, int divisor) {
+        if (divisor > 0) {
+            return (value % divisor) == 0;
+        }
+        return false;
+    }
 }
 
 
