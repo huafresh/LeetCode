@@ -732,6 +732,131 @@ public class LeetCodeMain {
         }
         return false;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/range-sum-of-bst/">二叉搜索树的范围和</a>
+     */
+    public int rangeSumBST(TreeNode root, int L, int R) {
+        //看半天总算明白题意了：
+        //是要求L到R之间数的和，比如示例中，在7到15之间的节点有：7，10，15，所以和就是32.
+
+        //那解法就简单了，周游二叉树，然后判断一下累加即可。
+        //因为是二叉搜索树，所以应该存在优化的地方
+
+        //todo
+        return 0;
+
+
+    }
+
+
+    public List<Integer> preorder(NodeN root) {
+
+
+        final List<Integer> result = new ArrayList<Integer>();
+
+        //递归解法
+        //printWithDiGui(root, result);
+        //非递归，需借助栈，选择合适的出栈入栈的时机打印节点
+        printWithoutDiGui(root, result);
+
+        return result;
+    }
+
+    private void printWithoutDiGui(NodeN root, List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+
+        final Stack<NodeN> stack = new Stack<>();
+        //存储对应的节点遍历的index
+        final Stack<Integer> stackIndex = new Stack<>();
+
+        NodeN curNode = root;
+        while (!stack.isEmpty()) {
+
+            //node左孩子深度入栈
+            while (curNode.children != null && curNode.children.size() > 0) {
+                NodeN leftFirst = curNode.children.get(0);
+                stack.push(leftFirst);
+                stackIndex.push(1);
+                curNode = leftFirst;
+            }
+
+            //出栈node，取兄弟节点
+            curNode = stack.pop();
+            int sibIndex = stackIndex.pop();
+            if (curNode.children != null && curNode.children.size() > sibIndex) {
+                curNode = curNode.children.get(sibIndex);
+                stack.push(curNode);
+                stackIndex.push(sibIndex + 1);
+            }
+        }
+    }
+
+    private void printWithDiGui(NodeN root, List<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        result.add(root.val);
+        int childCount = root.children.size();
+        NodeN child = null;
+        for (int i = 0; i < childCount; i++) {
+            child = root.children.get(i);
+            printWithDiGui(child, result);
+        }
+    }
+
+    class NodeN {
+        public int val;
+        public List<NodeN> children;
+
+        public NodeN() {
+        }
+
+        public NodeN(int _val, List<NodeN> _children) {
+            val = _val;
+            children = _children;
+        }
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/reverse-integer/submissions/">整数反转</a>
+     */
+    private int reverse(int x) {
+
+        //刚看到题目时往位运算方面想，然后又看了下题目，发现输入应该是十进制吧
+        //那么按常规的方法做十进制数的分解再重新组合应该可以吧
+        //最后判断结果是否在区间？
+
+        final List<Integer> list = new ArrayList();
+        int value = x;
+        while (value / 10 != 0) {
+            list.add(value % 10);
+            value = value / 10;
+        }
+        list.add(value % 10);
+
+        int result = 0;
+        for (int i = 0; i < list.size(); i++) {
+            result += list.get(i) * Math.pow(10, list.size() - i - 1);
+        }
+
+        int signBitMask = 0xffffffff;
+        if (x < 0) {
+            signBitMask = 0x7fffffff;
+        }
+        //result = result & signBitMask;
+
+        if (
+                result > Math.pow(2, 31) - 1) {
+            result = 0;
+        }
+
+        return result;
+
+    }
+
 }
 
 
