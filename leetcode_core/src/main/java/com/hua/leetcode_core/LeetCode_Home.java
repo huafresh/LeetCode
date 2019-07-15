@@ -90,4 +90,29 @@ public class LeetCode_Home {
         }
         return result;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/longest-common-prefix/submissions/">最长公共前缀</a>
+     */
+    public String longestCommonPrefix(String[] strs) {
+        final int size = strs.length;
+        if (size == 0) {
+            return "";
+        }
+
+        /*
+         * 按列扫描，遇到某列有不相等的字符即停止
+         */
+        int index = 0;
+        while (index < strs[0].length()) {
+            char c = strs[0].charAt(index);
+            for (int j = 1; j < size; j++) {
+                if (index >= strs[j].length() || c != strs[j].charAt(index)) {
+                    return strs[0].substring(0, index);
+                }
+            }
+            index++;
+        }
+        return strs[0];
+    }
 }
