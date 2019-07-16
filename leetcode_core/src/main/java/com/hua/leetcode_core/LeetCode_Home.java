@@ -1,6 +1,8 @@
 package com.hua.leetcode_core;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 /**
  * @author hua
@@ -115,4 +117,36 @@ public class LeetCode_Home {
         }
         return strs[0];
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/valid-parentheses/submissions/">有效的括号</a>
+     */
+    public boolean isValid(String s) {
+
+        /*
+         * 遇左括号则入栈，遇右括号则出栈，然后比较字符。
+         * 注意边界条件，最后栈空才是有效的。
+         */
+
+        final Map<Character, Character> map = new HashMap<>(3);
+        map.put('(', ')');
+        map.put('{', '}');
+        map.put('[', ']');
+
+        final Stack<Character> stack = new Stack<>();
+        int length = s.length();
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty() || map.get(stack.pop()) != c) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+
 }
