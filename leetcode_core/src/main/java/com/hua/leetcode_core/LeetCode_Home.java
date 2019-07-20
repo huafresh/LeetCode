@@ -148,5 +148,46 @@ public class LeetCode_Home {
         return stack.isEmpty();
     }
 
+    public class ListNode {
+        int val;
+        ListNode next;
 
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/merge-two-sorted-lists/submissions/">合并两个有序链表</a>
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+
+        /*
+         * 注意理解题意，合并后要有序。
+         * 考虑边界条件，l1, l2都有可能为空
+         * 如果某个链表遍历完了，剩下的就不用遍历了，拼接在尾部即可。
+         */
+
+        ListNode node1 = l1;
+        ListNode node2 = l2;
+        ListNode root = new ListNode(-1);
+        ListNode curNode = root;
+
+        while (node1 != null && node2 != null) {
+
+            if (node1.val < node2.val) {
+                curNode.next = node1;
+                node1 = node1.next;
+            } else {
+                curNode.next = node2;
+                node2 = node2.next;
+            }
+
+            curNode = curNode.next;
+        }
+
+        curNode.next = node1 != null ? node1 : node2;
+
+        return root.next;
+    }
 }
