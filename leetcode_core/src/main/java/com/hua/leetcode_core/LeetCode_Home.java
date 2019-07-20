@@ -190,4 +190,42 @@ public class LeetCode_Home {
 
         return root.next;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/submissions/">删除排序数组中的重复项</a>
+     */
+    public int removeDuplicates(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        //第一版解法，运行123ms，好慢啊
+        //int removedLen = 0;
+        //for(int i=1;i<nums.length-removedLen;){
+        //    if(nums[i]==nums[i-1]){
+        //        //移除第i位
+        //        for(int j=i;j<(nums.length - removedLen - 1);j++){
+        //            nums[j] = nums[j+1];
+        //        }
+        //        removedLen++;
+        //    } else {
+        //        i++;
+        //    }
+        //}
+        //return nums.length - removedLen;
+
+        //双指针法，运行2ms，差距啊
+        int i = 0;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[i] != nums[j]) {
+                i++;
+                //这里只拷贝了一次，要始终抓住的一点就是我们只关系i指针对应位置的数据是否正确
+                //其他的地方的不需要管。
+                nums[i] = nums[j];
+            }
+        }
+
+        return i + 1;
+    }
+
 }
