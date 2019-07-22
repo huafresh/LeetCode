@@ -228,4 +228,25 @@ public class LeetCode_Home {
         return i + 1;
     }
 
+    /**
+     * <a href="https://leetcode-cn.com/problems/remove-element/">移除元素</a>
+     */
+    public int removeElement(int[] nums, int val) {
+
+        /*
+         * 删除i位置的元素，用末尾的值填充。
+         */
+
+        int i = 0;
+        int len = nums.length;
+        while (i < len) {
+            if (nums[i] == val) {
+                nums[i] = nums[len-1];
+                len--;
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
 }
