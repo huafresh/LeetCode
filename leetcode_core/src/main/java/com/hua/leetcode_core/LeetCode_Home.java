@@ -241,12 +241,85 @@ public class LeetCode_Home {
         int len = nums.length;
         while (i < len) {
             if (nums[i] == val) {
-                nums[i] = nums[len-1];
+                nums[i] = nums[len - 1];
                 len--;
             } else {
                 i++;
             }
         }
         return i;
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/implement-strstr/submissions/">实现strStr()</a>
+     */
+    public int strStr(String haystack, String needle) {
+
+        if (needle.length() == 0) {
+            return 0;
+        }
+
+        //暴力求解法，双指针法
+
+//        int i = 0, j = 0;
+//        while (i < haystack.length() && j < needle.length()) {
+//            if (haystack.charAt(i) != needle.charAt(j)) {
+//                //指针回退
+//                i = i - j + 1;
+//                j = 0;
+//            } else {
+//                i++;
+//                j++;
+//            }
+//        }
+//        //考虑: [a]与[b]
+//        if (j == needle.length()) {
+//            return i - j;
+//        }
+
+        //由上可知，暴力解法下，每一次发现存在不匹配的字符时都回退到下一位
+        //而没有利用好前面已经匹配的一些信息，
+        //return -1;
+
+        //KMP算法
+        int[] nextArray = nextArray(needle);
+        int i = 0, j = 0;
+        while (i < haystack.length() && j < needle.length()) {
+            if (haystack.charAt(i) != needle.charAt(j)) {
+                //指针回退
+                if (j > 0) {
+                    //看一下笔记的那张图，这里应该是j-1
+                    j = nextArray[j - 1];
+                }
+            } else {
+                j++;
+            }
+            //i指针是一直往前走的，期间通过移动j指针来动态比较
+            i++;
+        }
+
+        //考虑: [a]与[b]
+        if (j == needle.length()) {
+            return i - j;
+        }
+
+        return -1;
+    }
+
+    private int[] nextArray(String needle) {
+        int len = needle.length();
+        int[] nextArray = new int[len];
+        for (int i = 0; i < len; i++) {
+            int start = 0, end = i;
+            while (start < end) {
+                if (needle.charAt(start) != needle.charAt(end)) {
+                    break;
+                }
+                start++;
+                end--;
+            }
+            nextArray[i] = start;
+        }
+        return nextArray;
     }
 }
