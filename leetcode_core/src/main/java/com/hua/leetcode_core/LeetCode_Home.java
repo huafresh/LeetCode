@@ -1,5 +1,6 @@
 package com.hua.leetcode_core;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -288,7 +289,7 @@ public class LeetCode_Home {
             if (haystack.charAt(i) != needle.charAt(j)) {
                 //指针回退
                 if (j > 0) {
-                    //看一下笔记的那张图，这里应该是j-1
+                    //看一下笔记的那张图，这里是j-1
                     j = nextArray[j - 1];
                 }
             } else {
@@ -321,5 +322,27 @@ public class LeetCode_Home {
             nextArray[i] = start;
         }
         return nextArray;
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/search-insert-position/submissions/">搜索插入位置</a>
+     */
+    public int searchInsert(int[] nums, int target) {
+        int start = 0, end = nums.length - 1;
+        while (start <= end) {
+            // 这里不能直接相加再整出2，否则可能整型溢出
+            // 为什么移位可以呢？因为即使溢出了，我们要得到的是和的一半
+            // 那么和的高位是什么已经不重要了。
+            int half = (start + end) >>> 1;
+            if (target == nums[half]) {
+                return half;
+            } else if (target > nums[half]) {
+                start = half + 1;
+            } else if (target < nums[half]) {
+                end = half - 1;
+            }
+        }
+        //看了下JDK代码，这里返回的是 -(start + 1)，可能情景不太一样，后续解释下。
+        return start;
     }
 }
