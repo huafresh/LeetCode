@@ -345,4 +345,37 @@ public class LeetCode_Home {
         //看了下JDK代码，这里返回的是 -(start + 1)，可能情景不太一样，后续解释下。
         return start;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/count-and-say/submissions/">报数</a>
+     */
+    public String countAndSay(int n) {
+
+        /*
+         * 关键就是读懂题意：
+         * 即下一个数说出了上一个数的组成。
+         * 例如上一个数是11，那上一个数就由2个1组成，所以下一个数是21；
+         * 再例如上一个数是111221，就由3个1、2个2、1个1组成，那下一个数就是312211
+         */
+
+        if (n == 1) {
+            return "1";
+        }
+        String last = countAndSay(n - 1);
+        StringBuilder result = new StringBuilder();
+
+        int len = last.length();
+        for (int i = 0; i < len; ) {
+            char c = last.charAt(i);
+            int j = i + 1;
+            while (j < len && c == last.charAt(j)) {
+                j++;
+            }
+            //j-i就是字符的个数
+            result.append(j - i).append(c);
+            i = j;
+        }
+
+        return result.toString();
+    }
 }
