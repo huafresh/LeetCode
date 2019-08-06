@@ -76,4 +76,40 @@ public class LeetCode_company {
             return digits;
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/add-binary/submissions/">二进制求和</a>
+     */
+    public String addBinary(String a, String b) {
+
+        int aLen = a.length();
+        int bLen = b.length();
+        int maxLen = Math.max(aLen, bLen);
+        StringBuilder result = new StringBuilder();
+        // 标识当前的计算是否需要额外加1。
+        // 如果前面有进位，此值就会被置为true。
+        boolean needAddOne = false;
+        for (int i = 0; i < maxLen; i++) {
+            // 先分别计算a、b相应位上的值，如果越界则为0。
+            int aValue = 0;
+            if (aLen - i - 1 >= 0) {
+                // 这里不能用Integer.valueOf，因为会把char当成对应的ARSCII码来计算。
+                aValue = a.charAt(aLen - i - 1) - '0';
+            }
+            int bValue = 0;
+            if (bLen - i - 1 >= 0) {
+                bValue = b.charAt(bLen - i - 1) - '0';
+            }
+
+            int sum = aValue + bValue + (needAddOne ? 1 : 0);
+            result.append(sum % 2);
+            needAddOne = (sum / 2) > 0;
+        }
+
+        if (needAddOne) {
+            result.append(1);
+        }
+
+        return result.reverse().toString();
+    }
 }
