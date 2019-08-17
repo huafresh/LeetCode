@@ -1,5 +1,10 @@
 package com.hua.leetcode_core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,9 +25,70 @@ public class LeetCodeMain {
 
 //        List<Integer> list = new LeetCodeMain().selfDividingNumbers(21, 22);
 
-        int ret = new LeetCode_Home().strStr("mississippi","issip");
+        File arrayFile = new File("array.txt");
+        System.out.println(arrayFile.getAbsolutePath());
+
+        String str = readArrayText(arrayFile);
+        int[] nums = null;
+        if (str != null) {
+            String[] strings = str.split(",");
+            nums = new int[strings.length];
+            for (int i = 0; i < strings.length; i++) {
+                String s = strings[i];
+                nums[i] = Integer.valueOf(s);
+            }
+        }
+
+        if (nums != null) {
+            System.out.println("nums.length = " + nums.length);
+            LeetCode_Home leetCode = new LeetCode_Home();
+            long cur = System.currentTimeMillis();
+            int sum = leetCode.maxSubArray2(nums);
+            System.out.println("maxSubArray cost time = " + (System.currentTimeMillis() - cur) + ", sum = " + sum);
+        }
     }
 
+    /**
+     * 里面的数据用于测试寻找最大子序和。
+     * 看下代码是否正确以及测试优化是否有效
+     */
+    private static String readArrayText(File file) {
+        FileInputStream fis = null;
+        ByteArrayOutputStream baos = null;
+        try {
+            fis = new FileInputStream(file);
+            baos = new ByteArrayOutputStream();
+            int len = -1;
+            byte[] buf = new byte[2048];
+            while (true) {
+                len = fis.read(buf, 0, buf.length);
+                if (len != -1) {
+                    baos.write(buf, 0, len);
+                } else {
+                    break;
+                }
+            }
+            return baos.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (baos != null) {
+                try {
+                    baos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * <a href = "https://leetcode-cn.com/problems/jewels-and-stones/">宝石与石头</a>

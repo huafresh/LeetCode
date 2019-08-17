@@ -378,4 +378,123 @@ public class LeetCode_Home {
 
         return result.toString();
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/maximum-subarray/submissions/">最大子序和</a>
+     * 解法参考：https://www.jianshu.com/p/2f1a64ce63f5
+     */
+    public int maxSubArray(int[] nums) {
+        // 对于最大子序，有这样两个性质，即:
+        // 从最左边往右任意个数，其和一定是正数，否则最大子序就可以抛弃该子子序而变得更大;
+        // 从最左边往左任意个数，其和一定是负数，否则最大子序就可以包含该子子序而变得更大。
+
+        // 扫描法: 时间复杂度O(n)
+        // 从左到右遍历数组，并且累积元素的和，如果元素的和小于0，则累计清0。整个过程不断刷新最大
+        // 的子序和，最后扫描结束就可以得到最大的子序和。
+
+        int len = nums.length;
+        int max = Integer.MIN_VALUE;
+        // 临时记录当前子序列的和
+        int sum = 0;
+        for (int j = 0; j < len; j++) {
+            sum += nums[j];
+            // 要在这里比较，因为数组可能只有一个元素，并且还是负数。
+            max = Math.max(max, sum);
+            if (sum < 0) {
+                /*
+                 * 如果当前子序的和为负数了，那么当前子序就不可能是最大子序的一部分了，因此清0，重新累积。
+                 *
+                 * 解题的时候这里花了比较多的时间理解，主要的疑问如下:
+                 * 为什么 [i,j] 的和为负数时，整段就可以直接抛弃了呢？
+                 * 难道就不可以 [k,j] 的和为正数从而成为最大子序的一部分吗？(k在i、j之间)
+                 * 答：还真的不可以。
+                 * 我们反证法证明:
+                 * 假设 [k,j] 的和为正数，那么由 [i,j] 的和为负数可知， [i,k] 的和一定为负数，如果这样，
+                 * 那么我们在k处就会进到这里了，根本就不会累加到j处。
+                 */
+                sum = 0;
+            }
+        }
+        return max;
+    }
+
+    public int maxSubArray2(int[] nums) {
+        /*
+         * 动态规划: 时间复杂度O(n)
+         * 动态规划思想: 要求f(n)的值，可以假设f(n-1)已知，然后根据某种规律把它们联系起来。
+         * 非常类似数学归纳法的证明过程：
+         * 1、证明当 n=1 时命题成立。
+         * 2、假设 n=m 时命题成立，那么可以推导出在 n=m+1 时命题也成立，则命题成立。
+         *
+         * 那么，针对此题，如何定义命题呢？
+         * 首先，最大子序和一定是以数组中的某个元素结尾的(废话)，假设其索引为n，并且记f(n)为以n结尾
+         * 的最大子序的和。那么f(n)和f(n-1)有如下关系:
+         * f(n) = Math.max(f(n-1) + nums[n], nums[n])  n是数组索引
+         * 当 n=0 时，显然f(n)是好计算的，因此根据上述公式不断增加n，我们就可以计算出所有的子序和，这个
+         * 过程不断刷新最大和即可求得数组的最大子序和。
+         */
+
+        final int len = nums.length;
+        int max = Integer.MIN_VALUE;
+        for (int n = 0; n < len; n++) {
+            // 临时记录f(n)
+            int sum;
+            if (n == 0) {
+                // f(0)可以直接计算，不需要公式。
+                sum = nums[0];
+            } else {
+                // 套用上面公式
+                sum = Math.max(nums[n - 1] + nums[n], nums[n]);
+            }
+            max = Math.max(max, sum);
+            // 我们需要利用好前面累加的和，这里直接借用原数组的空间存储，
+            // 因为我们不会再重头遍历了。
+            nums[n] = sum;
+        }
+        return max;
+
+    }
+
+    public int maxSubArray3(int[] nums) {
+        /**
+         * 分治法:
+         * 目前对分治法的理解就是把大的问题拆分成小的问题，不断拆分直到最终小问题已知。
+         * 针对此题，我们要求某个数组的最大子序，假设为 [i,j] ，然后我们把数组分成两部分，
+         * [0,h]、[h+1,len]，那么最大子序 [i,j] 要不就落在 [0,h]，要不就落在 [h+1,len] ，
+         * 要不就横跨两个部分。如果是横跨两个部分，那么我们只需用两个指针，从中间向两边遍历，
+         * 即可求得最大子序和，而对于前面两种情况，则可以进一步拆分求解。
+         */
+
+        // TODO: 2019/8/17
+        return 0;
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/climbing-stairs/submissions/">爬楼梯</a>
+     */
+    public int climbStairs(int n) {
+        // 用学到的DP思想，先假设f(n)已知，再根据题意求f(n+1)
+        // 联系最大子序和那道题，可知要利用好前面已经求好的步数。
+        // 如此O（n）时间复杂度即可解决此问题。
+
+        // 保存f(n)的值
+        int sum = 1;
+        // 保存f(n-1)的值
+        int sum2 = 0;
+        for (int i = 2; i <= n; i++) {
+            if (i == 2) {
+                // dp解法一定是有一个触发点的，否则一直假设f(n-1)已知，
+                // 那就没有尽头了。
+                sum = 2;
+                sum2 = 1;
+            } else {
+                // 前面sum个走法，每种走法走一步或两步就是新的走法
+                int tmp = sum;
+                sum = sum + sum2;
+                sum2 = tmp;
+            }
+        }
+
+        return sum;
+    }
 }
