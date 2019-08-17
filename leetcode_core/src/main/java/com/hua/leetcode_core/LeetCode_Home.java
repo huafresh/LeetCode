@@ -497,4 +497,29 @@ public class LeetCode_Home {
 
         return sum;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/">删除排序链表中的重复元素</a>
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        // 用快慢指针，好像做过这个题啊，，，
+        // 后记: 也可以遍历比较元素的值，如果相等，就修改next指针为next.next
+
+        ListNode slow, cur;
+        slow = cur = head;
+        while (cur != null) {
+            if (cur.val != slow.val) {
+                // 删除中间重复部分
+                slow.next = cur;
+                slow = cur;
+            }
+            cur = cur.next;
+        }
+        // 末尾可能重复
+        if (slow != null) {
+            slow.next = null;
+        }
+
+        return head;
+    }
 }
