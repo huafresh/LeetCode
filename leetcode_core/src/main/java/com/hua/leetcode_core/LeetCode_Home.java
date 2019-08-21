@@ -522,4 +522,30 @@ public class LeetCode_Home {
 
         return head;
     }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/merge-sorted-array/submissions/">合并两个有序数组</a>
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        // 看了提示，原来可以从后面开始遍历，那么这就不用关心位置的问题了，
+        // 更大的数直接追加到后面就好了。
+
+        int i = m - 1, j = n - 1;
+        int index = nums1.length - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[index--] = nums1[i--];
+            } else {
+                nums1[index--] = nums2[j--];
+            }
+        }
+
+        while (i >= 0) {
+            nums1[index--] = nums1[i--];
+        }
+
+        while (j >= 0) {
+            nums1[index--] = nums2[j--];
+        }
+    }
 }
