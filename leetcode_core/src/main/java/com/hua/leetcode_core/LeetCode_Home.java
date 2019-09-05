@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Stack;
 
 /**
@@ -586,6 +587,55 @@ public class LeetCode_Home {
             return p.val == q.val &&
                     isSameTree(p.left, q.left) &&
                     isSameTree(p.right, q.right);
+        }
+        return false;
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/same-tree/submissions/>对称二叉树</a>
+     */
+    public boolean isSymmetric(TreeNode root) {
+        // 先来递归解法吧，感觉二叉树的所有问题都可以递归解决，
+        // 因为二叉树本来就可以递归遍历。
+
+        // if(root==null){
+        //     return true;
+        // } else {
+        //     return _isSymmetric(root.left, root.right);
+        // }
+
+        // 看了题解，原理说明中说的迭代解法是指用队列，
+        // 但是传统的层序遍历肯定是不行的，解决办法就是节点对称放入队列。
+        if(root==null){
+            return true;
+        }
+
+        final Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root.left);
+        queue.add(root.right);
+
+        while(!queue.isEmpty()){
+            TreeNode node1 = queue.poll();
+            TreeNode node2 = queue.poll();
+            if(node1!=null && node2!=null &&
+                    node1.val==node2.val){
+                // 对称入队列
+                queue.add(node1.left);
+                queue.add(node2.right);
+                queue.add(node1.right);
+                queue.add(node2.left);
+            } else if(node1!=null || node2!=null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean _isSymmetric(TreeNode p, TreeNode q){
+        if(p==null && q==null){
+            return true;
+        } else if(p!=null && q!=null){
+            return p.val==q.val && _isSymmetric(p.left,q.right) && _isSymmetric(p.right,q.left);
         }
         return false;
     }
