@@ -2,6 +2,7 @@ package com.hua.leetcode_core;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Stack;
 
@@ -546,6 +547,56 @@ public class LeetCode_Home {
 
         while (j >= 0) {
             nums1[index--] = nums2[j--];
+        }
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/same-tree/submissions/>相同的树</a>
+     */
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        // 层序遍历，挨个对比就行了
+
+//         final Queue<TreeNode> pQueue = new LinkedList<>();
+//         final Queue<TreeNode> qQueue = new LinkedList<>();
+
+//         pQueue.add(p);
+//         qQueue.add(q);
+
+//         TreeNode pCurNode;
+//         TreeNode qCurNode;
+//         while(!pQueue.isEmpty() && !qQueue.isEmpty()){
+//             pCurNode = pQueue.poll();
+//             qCurNode = qQueue.poll();
+//             if(pCurNode!=null && qCurNode!=null && pCurNode.val==qCurNode.val){
+//                 pQueue.add(pCurNode.left);
+//                 pQueue.add(pCurNode.right);
+//                 qQueue.add(qCurNode.left);
+//                 qQueue.add(qCurNode.right);
+//             } else if( pCurNode!=null || qCurNode!=null){
+//                 return false;
+//             }
+//         }
+
+//         return pQueue.isEmpty() && qQueue.isEmpty();
+
+        // 用递归再实现一下，看评论感觉很简洁
+        if (p == null && q == null) {
+            return true;
+        } else if (p != null && q != null) {
+            return p.val == q.val &&
+                    isSameTree(p.left, q.left) &&
+                    isSameTree(p.right, q.right);
+        }
+        return false;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
         }
     }
 }
