@@ -1,5 +1,10 @@
 package com.hua.leetcode_core;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 /**
  * @author zhangsh
  * @version V1.0
@@ -111,5 +116,39 @@ public class LeetCode_company {
         }
 
         return result.reverse().toString();
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/binary-tree-level-order-traversal-ii/submissions/">二叉树的层次遍历 II</a>
+     */
+    @SuppressWarnings("ConstantConditions")
+    public List<List<Integer>> levelOrderBottom(LeetCodeMain.TreeNode root) {
+        // 仔细看返回值，其实倒序遍历不是重点，重点是给节点分层，
+        // 分层的话可以用两个队列来做。
+        // 后记：看评论区都没有双队列的解法，本来觉得双队列应该还比较巧妙的
+        // 结果打脸了，其实一个队列就够了，只需要在某次遍历的时候把所有元素取出来，
+        // 刚好就是某一层的所有元素了，感觉这才是二叉树分层的标准思路吧，代码重写如下：
+        final LinkedList<List<Integer>> results = new LinkedList<>();
+        final Queue<LeetCodeMain.TreeNode> queue = new LinkedList<>();
+        if (root != null) {
+            queue.add(root);
+        }
+        LeetCodeMain.TreeNode curNode = null;
+        while (!queue.isEmpty()) {
+            int count = queue.size();
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < count; i++) {
+                curNode = queue.poll();
+                list.add(curNode.val);
+                if (curNode.left != null) {
+                    queue.add(curNode.left);
+                }
+                if (curNode.right != null) {
+                    queue.add(curNode.right);
+                }
+            }
+            results.addFirst(list);
+        }
+        return results;
     }
 }
