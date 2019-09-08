@@ -826,36 +826,35 @@ public class LeetCodeMain {
      * <a href = "https://leetcode-cn.com/problems/reverse-integer/submissions/">整数反转</a>
      */
     private int reverse(int x) {
+        //官方题解: 用栈的思维做反转。期间加上整数溢出的判断
+        //如果 temp=rev⋅10+pop 导致溢出，那么一定有 rev≥INT_MAX​ / 10。
+        //如果 rev>INT_MAX / 10​，那么 temp=rev⋅10+pop 一定会溢出。
+        //如果 rev==INT_MAX / 10​，那么只要 pop>7，temp=rev⋅10+pop 就会溢出。
+        //（PS：7是INT_MAX的尾数，8是INT_MIN的尾数）
+        int rev = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
 
-        //刚看到题目时往位运算方面想，然后又看了下题目，发现输入应该是十进制吧
-        //那么按常规的方法做十进制数的分解再重新组合应该可以吧
-        //最后判断结果是否在区间？
+            //当rev == INT_MAX / 10时，为什么只要pop>7才会溢出呢？根据上面的式子：
+            //temp = INT_MAX * 10 + pop
+            //那么pop只要大与0，temp就会溢出了啊。
+            //纠结了一点时间，最后恍然大悟：原来是整除和乘并不能划等号
+            //比如125整数10是12
+            //但是12乘10却是120
+            if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) {
+                return 0;
+            }
 
-        final List<Integer> list = new ArrayList();
-        int value = x;
-        while (value / 10 != 0) {
-            list.add(value % 10);
-            value = value / 10;
-        }
-        list.add(value % 10);
+            if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) {
+                return 0;
+            }
 
-        int result = 0;
-        for (int i = 0; i < list.size(); i++) {
-            result += list.get(i) * Math.pow(10, list.size() - i - 1);
-        }
-
-        int signBitMask = 0xffffffff;
-        if (x < 0) {
-            signBitMask = 0x7fffffff;
-        }
-        //result = result & signBitMask;
-
-        if (
-                result > Math.pow(2, 31) - 1) {
-            result = 0;
+            rev = rev * 10 + pop;
         }
 
-        return result;
+        return rev;
+
 
     }
 
