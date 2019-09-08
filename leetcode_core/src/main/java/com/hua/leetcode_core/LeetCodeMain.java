@@ -20,6 +20,8 @@ public class LeetCodeMain {
 
         List<Integer> list = new LeetCodeMain().selfDividingNumbers(21, 22);
 
+        int[] nums = new int[]{-10,-3,0,5,9};
+        TreeNode node = new LeetCode_company().sortedArrayToBST(nums);
     }
 
 
@@ -424,7 +426,7 @@ public class LeetCodeMain {
         return node.val == INVALID_VALUE ? 0 : node.val;
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

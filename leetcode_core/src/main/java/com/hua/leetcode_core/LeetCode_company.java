@@ -123,9 +123,8 @@ public class LeetCode_company {
      */
     @SuppressWarnings("ConstantConditions")
     public List<List<Integer>> levelOrderBottom(LeetCodeMain.TreeNode root) {
-        // 仔细看返回值，其实倒序遍历不是重点，重点是给节点分层，
-        // 分层的话可以用两个队列来做。
-        // 后记：看评论区都没有双队列的解法，本来觉得双队列应该还比较巧妙的
+        // 仔细看返回值，其实倒序遍历不是重点，重点是给节点分层，分层的话可以用两个队列来做。
+        // 后记：看评论区都没有双队列的解法，本来觉得双队列应该还比较巧妙的，
         // 结果打脸了，其实一个队列就够了，只需要在某次遍历的时候把所有元素取出来，
         // 刚好就是某一层的所有元素了，感觉这才是二叉树分层的标准思路吧，代码重写如下：
         final LinkedList<List<Integer>> results = new LinkedList<>();
@@ -150,5 +149,25 @@ public class LeetCode_company {
             results.addFirst(list);
         }
         return results;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/submissions/">将有序数组转换为二叉搜索树</a>
+     */
+    public LeetCodeMain.TreeNode sortedArrayToBST(int[] nums) {
+        // 数组已经是有序的，因此只需要每次取中间值填充二叉树即可。
+        return binaryRoot(nums, 0, nums.length - 1);
+    }
+
+    private LeetCodeMain.TreeNode binaryRoot(int[] nums, int start, int end) {
+        if (start > end) {
+            return null;
+        }
+
+        int half = (start + end) / 2;
+        LeetCodeMain.TreeNode node = new LeetCodeMain.TreeNode(nums[half]);
+        node.left = binaryRoot(nums, start, half - 1);
+        node.right = binaryRoot(nums, half + 1, end);
+        return node;
     }
 }
