@@ -170,4 +170,39 @@ public class LeetCode_company {
         node.right = binaryRoot(nums, half + 1, end);
         return node;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/balanced-binary-tree/">平衡二叉树</a>
+     */
+    public boolean isBalanced(LeetCodeMain.TreeNode root) {
+        // 注意审题：是给定某个节点，然后看它的左右两个子树的高度差的绝对值。
+        return treeHeight(root) != -1;
+    }
+
+    // 返回给定子树的高度，如果左右子树高度差大于1，则返回-1。
+    // 返回-1的目的是在递归的过程中就把子树的高度差判断了。
+    private int treeHeight(LeetCodeMain.TreeNode root){
+
+        if(root == null){
+            return 1;
+        }
+
+        int leftH = treeHeight(root.left);
+        // 这里就做判断，避免leftH为-1时，右子树就没必要计算了。
+        if(leftH == -1){
+            return -1;
+        }
+
+        int rightH = treeHeight(root.right);
+        if(rightH == -1){
+            return -1;
+        }
+
+        int deltaH = Math.abs(leftH - rightH);
+        if(deltaH>1){
+            return -1;
+        } else {
+            return Math.max(leftH, rightH) + 1;
+        }
+    }
 }
