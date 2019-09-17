@@ -168,6 +168,7 @@ public class LeetCode_company {
         LeetCodeMain.TreeNode node = new LeetCodeMain.TreeNode(nums[half]);
         node.left = binaryRoot(nums, start, half - 1);
         node.right = binaryRoot(nums, half + 1, end);
+
         return node;
     }
 
@@ -181,28 +182,63 @@ public class LeetCode_company {
 
     // 返回给定子树的高度，如果左右子树高度差大于1，则返回-1。
     // 返回-1的目的是在递归的过程中就把子树的高度差判断了。
-    private int treeHeight(LeetCodeMain.TreeNode root){
+    private int treeHeight(LeetCodeMain.TreeNode root) {
 
-        if(root == null){
+        if (root == null) {
             return 1;
         }
 
         int leftH = treeHeight(root.left);
         // 这里就做判断，避免leftH为-1时，右子树就没必要计算了。
-        if(leftH == -1){
+        if (leftH == -1) {
             return -1;
         }
 
         int rightH = treeHeight(root.right);
-        if(rightH == -1){
+        if (rightH == -1) {
             return -1;
         }
 
         int deltaH = Math.abs(leftH - rightH);
-        if(deltaH>1){
+        if (deltaH > 1) {
             return -1;
         } else {
             return Math.max(leftH, rightH) + 1;
         }
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/submissions/">二叉树的最小深度</a>
+     */
+    public int minDepth(LeetCodeMain.TreeNode root) {
+        // 层序遍历没跑了，当发现叶子节点就停止遍历
+
+        if (root == null) {
+            return 0;
+        }
+
+        final Queue<LeetCodeMain.TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int level = 1;
+        out:
+        while (!queue.isEmpty()) {
+            int count = queue.size();
+            for (int i = 0; i < count; i++) {
+                LeetCodeMain.TreeNode node = queue.poll();
+                if (node.left == null && node.right == null) {
+                    break out;
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+            level++;
+        }
+
+        return level;
     }
 }
