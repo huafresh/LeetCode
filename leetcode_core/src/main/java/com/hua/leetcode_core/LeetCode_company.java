@@ -298,4 +298,33 @@ public class LeetCode_company {
         }
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/pascals-triangle/">杨辉三角</a>
+     */
+    public List<List<Integer>> generate(int numRows) {
+        // 暴力一点的话，好像没什么难度啊
+        final List<List<Integer>> resultList = new ArrayList<>(numRows);
+        List<Integer> preList = null;
+        for (int i = 0; i < numRows; i++) {
+            final List<Integer> lineList = new ArrayList<>(i + 1);
+            if (i == 0) {
+                lineList.add(1);
+            } else {
+                for (int j = 0; j < i + 1; j++) {
+                    // 边界特殊处理
+                    if (j == 0) {
+                        lineList.add(preList.get(0));
+                    } else if (j == i) {
+                        lineList.add(preList.get(j - 1));
+                    } else {
+                        lineList.add(preList.get(j - 1) + preList.get(j));
+                    }
+                }
+            }
+            resultList.add(lineList);
+            preList = lineList;
+        }
+        return resultList;
+    }
+
 }
