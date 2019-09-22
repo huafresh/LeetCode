@@ -241,4 +241,61 @@ public class LeetCode_company {
 
         return level;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/path-sum/submissions/">路径总和</a>
+     */
+    public boolean hasPathSum(LeetCodeMain.TreeNode root, int sum) {
+//         // 二叉树后序遍历时，栈中元素即为当前节点到根节点的路径
+//         final Stack<Element> stack = new Stack<>();
+//         TreeNode cur = root;
+//         // 存储某一时刻栈中元素的和
+//         int tempSum = 0;
+//         while(cur != null || !stack.isEmpty()){
+//             while(cur!=null){
+//                 stack.push(new Element(cur));
+//                 tempSum += cur.val;
+//                 cur = cur.left;
+//             }
+
+//             if(!stack.isEmpty()){
+//                 Element element = stack.pop();
+//                 TreeNode node = element.node;
+//                 if(element.isFirst){
+//                     element.isFirst = false;
+//                     stack.push(element);
+//                     cur = node.right;
+//                     tempSum += node.val;
+//                 } else {
+//                     if(node.left==null && node.right==null && tempSum==sum){
+//                         return true;
+//                     }
+//                 }
+//                 tempSum -= node.val;
+//             }
+//         }
+//         return false;
+
+        // 后记：以上后序遍历的解法把所有的可能路径都遍历出来了，对于此题来说有些小题大作，
+        // 其实只需要递归就很容易解决：
+        // PS: 注意边界条件，最开始的root为null时，且sum=0时应该返回false。
+        if (root == null) {
+            return false;
+        }
+        int remain = sum - root.val;
+        if (root.left == null && root.right == null) {
+            return remain == 0;
+        }
+        return hasPathSum(root.left, remain) || hasPathSum(root.right, remain);
+    }
+
+    private static class Element {
+        private LeetCodeMain.TreeNode node;
+        private boolean isFirst = true;
+
+        private Element(LeetCodeMain.TreeNode node) {
+            this.node = node;
+        }
+    }
+
 }
