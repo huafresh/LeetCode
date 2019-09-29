@@ -1,8 +1,10 @@
 package com.hua.leetcode_core;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
@@ -606,7 +608,7 @@ public class LeetCode_Home {
 
         // 看了题解，原理说明中说的迭代解法是指用队列，
         // 但是传统的层序遍历肯定是不行的，解决办法就是节点对称放入队列。
-        if(root==null){
+        if (root == null) {
             return true;
         }
 
@@ -614,28 +616,28 @@ public class LeetCode_Home {
         queue.add(root.left);
         queue.add(root.right);
 
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             TreeNode node1 = queue.poll();
             TreeNode node2 = queue.poll();
-            if(node1!=null && node2!=null &&
-                    node1.val==node2.val){
+            if (node1 != null && node2 != null &&
+                    node1.val == node2.val) {
                 // 对称入队列
                 queue.add(node1.left);
                 queue.add(node2.right);
                 queue.add(node1.right);
                 queue.add(node2.left);
-            } else if(node1!=null || node2!=null){
+            } else if (node1 != null || node2 != null) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean _isSymmetric(TreeNode p, TreeNode q){
-        if(p==null && q==null){
+    private boolean _isSymmetric(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
             return true;
-        } else if(p!=null && q!=null){
-            return p.val==q.val && _isSymmetric(p.left,q.right) && _isSymmetric(p.right,q.left);
+        } else if (p != null && q != null) {
+            return p.val == q.val && _isSymmetric(p.left, q.right) && _isSymmetric(p.right, q.left);
         }
         return false;
     }
@@ -648,5 +650,37 @@ public class LeetCode_Home {
         TreeNode(int x) {
             val = x;
         }
+    }
+
+    /**
+     * <a href="https://leetcode-cn.com/problems/pascals-triangle-ii/submissions/>杨辉三角 II</a>
+     */
+    public List<Integer> getRow(int rowIndex) {
+        // dp思想: 假设第k-1行已知，求第k行
+        // 后记: 评论区提到结果是对称的，看来还可以进一步优化减少运算
+
+        int count = rowIndex + 1;
+
+        final List<Integer> result = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            result.add(1);
+        }
+        for (int i = 0; i < count; i++) {
+            // 难点在于不新增集合的基础上完成i+1的运算
+            //暂存第j个值
+            int temp = 1;
+            for (int j = 0; j < i + 1; j++) {
+                if (j == 0 || j == i) {
+                    result.set(j, 1);
+                } else {
+                    int sum = temp + result.get(j);
+                    temp = result.get(j);
+                    result.set(j, sum);
+                }
+            }
+
+        }
+
+        return result;
     }
 }
