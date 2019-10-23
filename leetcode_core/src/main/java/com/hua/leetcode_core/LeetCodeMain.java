@@ -18,10 +18,12 @@ public class LeetCodeMain {
 //        int[] a1 = new int[]{3, 1, 2, 4};
 //        int[] result2 = new LeetCodeMain().sortArrayByParity(a1);
 
-        List<Integer> list = new LeetCodeMain().selfDividingNumbers(21, 22);
+//        List<Integer> list = new LeetCodeMain().selfDividingNumbers(21, 22);
+//
+//        int[] nums = new int[]{-10,-3,0,5,9};
+//        TreeNode node = new LeetCode_company().sortedArrayToBST(nums);
 
-        int[] nums = new int[]{-10,-3,0,5,9};
-        TreeNode node = new LeetCode_company().sortedArrayToBST(nums);
+        boolean palindrome = new LeetCode_company().isPalindrome("0P");
     }
 
 
