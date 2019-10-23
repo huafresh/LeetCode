@@ -347,7 +347,7 @@ public class LeetCode_company {
                 end--;
             }
             if (start < s.length() &&
-                    end >=0 &&
+                    end >= 0 &&
                     !isEqual(s.charAt(start), s.charAt(end))) {
                 return false;
             }
@@ -367,10 +367,34 @@ public class LeetCode_company {
                 isLetter(c1) && isLetter(c2) && Math.abs(c1 - c2) == Math.abs('a' - 'A');
     }
 
-    private static boolean isLetter(char c){
+    private static boolean isLetter(char c) {
         return 'a' <= c && c <= 'z' ||
                 'A' <= c && c <= 'Z';
     }
 
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/single-number/submissions/">只出现一次的数字</a>
+     */
+    public int singleNumber(int[] nums) {
+        // 线性时间复杂度那就表示只能遍历一遍，但是你要想知道后面是否有重复值就必须保存前面遍历到的值，
+        // 但是这又使用了额外空间，所以难点就在这。
+        // 像这种矛盾点，可以用DP的思想来处理，DP思想即：假设n已知，求n+1，
+        // DP思想为什么会有线性时间是因为它在求最终结果的过程中不断利用已知的结果。
+        // 针对这题就是假设[0, n]中只出现一次的元素是x，那么n+1时只需对比x和nums[n+1]是否相等就可以判断出
+        // [0,n+1]这个区间是否还存在只出现一次的元素。
+        // 把index=0用来存储最终的结果，就可以做到不使用额外空间了。避免麻烦我们还是用一个变量保存结果
+
+        // 后记：上面bb了这么多，发现行不通，因为当n+1时x重复了，此时你无法知道下一个只出现一次的元素在哪里了。
+
+        // 题解是用异或解决的，只能说666
+        // 异或的含义就是相同为0，相异为1，因此对所有的元素异或，最终就会得到那个只出现一次的值。
+
+        int result = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            result = result ^ nums[i];
+        }
+        return result;
+    }
 
 }
