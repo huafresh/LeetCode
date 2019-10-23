@@ -397,4 +397,37 @@ public class LeetCode_company {
         return result;
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/linked-list-cycle/submissions/">环形链表</a>
+     */
+    public boolean hasCycle(ListNode head) {
+        // 如果可以更改Node这个类，这个题不难，只需增加变量标记Node是否被访问过即可。
+        // 这里Leecode显然不会让你修改Node类。
+        // 看了题解，可以用快慢指针求解，具体思路就是一快一慢两个指针，快的每次跑两个节点，慢的每次跑一个节点，
+        // 起点都一样，如果存在环，那么快指针最终肯定会重新等于慢指针。
+
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+            next = null;
+        }
+    }
+
 }
