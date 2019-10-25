@@ -430,4 +430,24 @@ public class LeetCode_company {
         }
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/intersection-of-two-linked-lists/submissions/">相交链表</a>
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        // 这个不看题解真是没思路：
+        // 如果相交，后面的节点个数是相等的，因此如果A遍历到结尾，再从B的头开始遍历，B也遍历到结尾，再从A的头
+        // 开始遍历，那么他们会刚好相遇在相交点。
+        // ps: 以下代码参考题解，请仔细品一品
+
+        ListNode p1 = headA;
+        ListNode p2 = headB;
+        if (p1 == null || p2 == null) return null;
+        while (p1 != p2) {
+            p1 = p1 == null ? headB : p1.next;
+            p2 = p2 == null ? headA : p2.next;
+        }
+
+        return p1;
+    }
+
 }
