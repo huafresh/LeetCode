@@ -470,4 +470,27 @@ public class LeetCode_company {
         }
         return null;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/excel-sheet-column-title/submissions/">Excel表列名称</a>
+     */
+    public String convertToTitle(int n) {
+        // 思路：用n除以26，余数转成字母，然后用除的结果重复以上，生成的字符挨个往前排。
+        // 题解后记：按照上述思路写出的代码始终在边界条件上有问题，看了题解才知道原来这道题并非严格的10进制转26进制，
+        // 因为如果是标准的26进制，那么范围就是[0～25]，而这道题的范围却是[1～26]。了解了这点细微区别后，就可以在一般的进制转换
+        // 代码的基础上修改了。
+        int temp = n;
+        final StringBuilder resultBuilder = new StringBuilder();
+        while (temp > 0) {
+            int mod = temp % 26;
+            // 这个if就是修正代码
+            if (mod == 0) {
+                mod = 26; // 这个赋值则使后面插入'Z'字符
+                temp--; // 这个减1无法从理论上去理解，不过用26、52等举例就会发现必须减1，非要理解的话就理解为借位吧。
+            }
+            temp = temp / 26;
+            resultBuilder.insert(0, (char) ('A' + mod - 1));
+        }
+        return resultBuilder.toString();
+    }
 }
