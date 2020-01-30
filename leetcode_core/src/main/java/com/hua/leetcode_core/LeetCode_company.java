@@ -450,4 +450,24 @@ public class LeetCode_company {
         return p1;
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/">两数之和 II - 输入有序数组</a>
+     */
+    public int[] twoSum(int[] numbers, int target) {
+        // 开始时的思路：遍历[0, len]，先固定第一个元素，然后再从i往后挨个固定第二个元素，一旦和超过target了，则continue略过后面的元素。
+        // 看了题解：用两个指针，开始时第一个指向最小值，第二个指向最大值，然后求和，如果大于target，则第二个指针前移；否则第一个指针后移，如此不断
+        // 逼近唯一解。
+        int i = 0;
+        int j = numbers.length - 1;
+        while (i < j) {
+            if (numbers[i] + numbers[j] == target) {
+                return new int[]{i + 1, j + 1};
+            } else if (numbers[i] + numbers[j] > target) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+        return null;
+    }
 }
