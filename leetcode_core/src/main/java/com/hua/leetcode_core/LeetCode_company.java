@@ -493,4 +493,34 @@ public class LeetCode_company {
         }
         return resultBuilder.toString();
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/majority-element/">多数元素</a>
+     */
+    public int majorityElement(int[] nums) {
+        // 思路：想了半天没想出个啥。。。
+        // 看了题解了解到原来这个题有个专业的词汇叫"求众数"，而"求众数"又有个专业的算法叫"摩尔投票"算法，
+        // 该算法的思想：每次把数组中不相同的元素消除，最后剩下的就会是众数。
+        // 具体代码实现：遍历数组，先把第一个元素当成"擂主"，该元素初始积分为1，每当遇到相同元素，则积分加1，遇到不同元素则减1，
+        // 当积分为0时，则代表完成了一轮不同元素之间的消除，此时则再把下一个元素当成新的"擂主"，如此往复，最后剩下的"擂主"就是数组的众数。
+
+        int major = nums[0];
+        int count = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (major == nums[i]) {
+                count++;
+            } else {
+                count--;
+            }
+            if (count == 0) {
+                // 复位擂主
+                major = nums[i + 1];
+                count = 1;
+                i++;
+            }
+        }
+        return major;
+
+        // 还有其他解法也不错，比如：先排序，然后取index = n/2处的元素即为众数。
+    }
 }
