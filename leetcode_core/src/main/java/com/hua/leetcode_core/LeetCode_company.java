@@ -523,4 +523,21 @@ public class LeetCode_company {
 
         // 还有其他解法也不错，比如：先排序，然后取index = n/2处的元素即为众数。
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/excel-sheet-column-number/submissions/">Excel表列序号</a>
+     */
+    public int titleToNumber(String s) {
+        // 其他进制转10进制问题，比如16进制“9AE”转10进制：
+        // 9*16^2 + 10*16^1 + 14 = 2478
+        // 之前做过序列号转列名称的题，那里提到了这类题并非严格的进制转换问题，因此需要一定的修正，但是这道题
+        // 试了题目中示例的几个例子后，发现以上公式是完全正确的，不知为何。。。
+        int len = s.length();
+        int result = 0;
+        for (int i = 0; i < len; i++) {
+            char c = s.charAt(len - i - 1);
+            result += Math.pow(26, i) * (c - 'Z' + 26);
+        }
+        return result;
+    }
 }
