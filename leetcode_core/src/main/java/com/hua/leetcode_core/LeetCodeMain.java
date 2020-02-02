@@ -24,6 +24,7 @@ public class LeetCodeMain {
 //        TreeNode node = new LeetCode_company().sortedArrayToBST(nums);
 
         boolean palindrome = new LeetCode_company().isPalindrome("0P");
+        int result = new LeetCode_company().reverseBits(0b11111111111111111111111111111101);
     }
 
 

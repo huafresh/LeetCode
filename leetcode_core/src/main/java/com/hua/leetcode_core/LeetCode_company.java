@@ -601,4 +601,23 @@ public class LeetCode_company {
             nums[0] = temp;
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/reverse-bits/">颠倒二进制位</a>
+     */
+    public int reverseBits(int n) {
+        // 通过适当的移位应该可以实现。
+        int result = 0;
+        int savedN = n;
+        for (int i = 0; i < 32; i++) {
+            // 把要处理的bit抠出来，其余bit置0
+            int j = (1 << (32 - i - 1)) & savedN;
+            if (j != 0) {
+                // 抠出来的bit如果是1，则result对称位置上置1
+                result |= 1 << i;
+            }
+            // 如果要处理的bit为0，则无需特别处理，因为result本来初始就是0
+        }
+        return result;
+    }
 }
