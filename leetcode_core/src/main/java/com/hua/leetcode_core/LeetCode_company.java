@@ -566,4 +566,39 @@ public class LeetCode_company {
         }
         return count;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/rotate-array/submissions/">旋转数组</a>
+     */
+    public void rotate(int[] nums, int k) {
+        // 方法1: 一次只移动一个元素，用一个临时变量保存，然后systemArray拷贝
+        // 方法2: 最后k个元素和最开始k个元素置换位置，此时最后k个元素位置正确，然后再对最后k个元素和[k, 2k]位置元素置换，
+        // 如此往复即可。PS：此法未实现，因为置换到后面发现边界条件比较麻烦。
+        // 看完题解后，感觉反转法高效且易于理解：首先将整个数组反转，然后反转前k个元素，最后反转[k, len]。
+
+        // rotate1(nums, k);
+        // rotate2(nums, k);
+        k %= nums.length; // 实际k可能会大于数组长度
+        reverse(nums, 0, nums.length);
+        reverse(nums, 0, k);
+        reverse(nums, k, nums.length - k);
+    }
+
+    private void reverse(int[] nums, int index, int count) {
+        for (int i = 0; i < count / 2; i++) {
+            int temp = nums[index + i];
+            nums[index + i] = nums[index + count - 1 - i];
+            nums[index + count - 1 - i] = temp;
+        }
+    }
+
+    // 方法1
+    private void rotate1(int[] nums, int k) {
+        int len = nums.length;
+        for (int i = 0; i < k; i++) {
+            int temp = nums[len - 1];
+            System.arraycopy(nums, 0, nums, 1, len - 1);
+            nums[0] = temp;
+        }
+    }
 }
