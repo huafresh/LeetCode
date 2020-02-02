@@ -620,4 +620,19 @@ public class LeetCode_company {
         }
         return result;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/number-of-1-bits/">位1的个数</a>
+     */
+    public int hammingWeight(int n) {
+        // jdk中就有方法可用啦，正好前两天复习了，看看现在能不能盲写出来。
+        // 后记：看了题解，通过移位后的1作为mask用于确定n中对应位置上的bit是1还是0，是1的话就count加1，这种方式
+        // 更容易想到，如果记不起jdk的算法，倒是可以一试。
+        n = n - ((n >> 1) & 0x55555555);
+        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
+        n = (n + (n >> 4)) & 0x0f0f0f0f;
+        n = n + (n >> 8);
+        n = n + (n >> 16);
+        return n & 0x3f;
+    }
 }
