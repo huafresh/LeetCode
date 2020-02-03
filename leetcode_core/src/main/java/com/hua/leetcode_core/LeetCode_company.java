@@ -652,4 +652,29 @@ public class LeetCode_company {
         return max;
 
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/happy-number/submissions/">快乐数</a>
+     */
+    public boolean isHappy(int n) {
+        // 一直循环计算平方和，并保存，直到遇到相同的结果则认为是死循环，则return false。
+        // 看了题解：虽然用集合保存结果判断是否进入循环这种方式在此题获得了通过，但是其实存在一个很大的问题，即循环可能足够大，
+        // 以至于集合存储过大导致OOM。其实这道题考察的就是检测是否存在循环，而判断是否循环的最佳方式就是快慢指针，切记！！！
+        int low = n, fast = n;
+        do {
+            low = bitSum(low);
+            fast = bitSum(fast);
+            fast = bitSum(fast);
+        } while (low != fast);
+        return low == 1;
+    }
+
+    private int bitSum(int n) {
+        int sum = 0;
+        while (n > 0) {
+            sum += Math.pow(n % 10, 2);
+            n = n / 10;
+        }
+        return sum;
+    }
 }
