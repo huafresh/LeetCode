@@ -677,4 +677,26 @@ public class LeetCode_company {
         }
         return sum;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/remove-linked-list-elements/submissions/">移除链表元素</a>
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        // 遍历不就完了？难道考察链表操作的基本功？
+        // 看了题解后：考察的确实是链表操作的基本功，但是可以通过增加哨兵节点来使代码减少一些边界判断，
+        // 所谓的哨兵节点其实就是给链表增加伪头和伪尾，这些增加的节点不保存任何数据，只是为了使节点永不为空。
+        ListNode emptyHead = new ListNode(0);
+        emptyHead.next = head;
+        ListNode preNode = emptyHead;
+        ListNode curNode = head;
+        while (curNode != null) {
+            if (curNode.val == val) {
+                preNode.next = curNode.next;
+            } else {
+                preNode = curNode;
+            }
+            curNode = curNode.next;
+        }
+        return emptyHead.next;
+    }
 }
