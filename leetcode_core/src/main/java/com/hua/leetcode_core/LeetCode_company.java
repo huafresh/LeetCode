@@ -699,4 +699,44 @@ public class LeetCode_company {
         }
         return emptyHead.next;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/count-primes/submissions/">计数质数</a>
+     */
+    public int countPrimes(int n) {
+        // 这题应该是在考察如何快速判断一个数是否是质数。
+        // 质数的定义是除1和自身外，不能被其他数除尽。
+        // 看提示加题解后记：判断质数这个问题，目前来说靠谱的优化点就只有一个，那就是缩小遍历区间到根号n。
+        // 但是对于此题，是要统计质数个数，那么就有另一个优化方式了，该优化的思想是用空间换时间，把区间内肯定是非质数的数标记出来
+        // 那么剩余的未标记的数的个数就是质数的个数了。此法有个专有名词叫埃拉托色尼筛选法。
+        boolean[] array = new boolean[n];
+        for (int i = 2; i < n; i++) {
+            // 先所有都标为质数，后面会进行排除
+            array[i] = true;
+        }
+        for (int i = 2; i * i < n; i++) {
+            if (!array[i]) {
+                continue;
+            }
+            // 埃拉托色尼筛选法的核心思想是：
+            // 2的倍数可以排除；
+            // 3的被数可以排除；
+            // 4的倍数可以排除；
+            // ... 依次类推。
+            // 但是这里我们的for循环不能写成：for(int j=i;j<n;j+=i)，为什么呢？
+            // 原因在于这么写很多重复了，我们以i=5来看：
+            // 5*1,5*2,5*3,5*4, 5*5,5*6,...,5*n。
+            // 可以看到其实前面4个5*1,5*2,5*3,5*4早在i=1,i=2,i=3,i=4时就标记过了，因此j的起点应该是i^2。
+            for (int j = i * i; j < n; j += i) {
+                array[j] = false;
+            }
+        }
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (array[i]) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
