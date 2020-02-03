@@ -635,4 +635,21 @@ public class LeetCode_company {
         n = n + (n >> 16);
         return n & 0x3f;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/house-robber/solution/hua-jie-suan-fa-198-da-jia-jie-she-by-guanpengchn/">打家劫舍</a>
+     */
+    public int rob(int[] nums) {
+        // 最优解问题，应该就是动态规划吧。
+        // 动态规划在于找出状态转移公式，对于此题就是：dp[n] = MAX( dp[n-1], dp[n-2] + num )
+        int max = 0;
+        int preMax = 0;
+        for (int num : nums) {
+            int temp = Math.max(max, preMax + num);
+            preMax = max;
+            max = temp;
+        }
+        return max;
+
+    }
 }
