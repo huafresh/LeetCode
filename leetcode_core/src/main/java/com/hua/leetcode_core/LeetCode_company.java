@@ -769,4 +769,48 @@ public class LeetCode_company {
         }
         return true;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/reverse-linked-list/submissions/">反转链表</a>
+     */
+    public ListNode reverseList(ListNode head) {
+        // 此题就不要多想了，考的就是链表基本操作。
+        // return method1(head);
+        if (head == null) {
+            return null;
+        }
+        return method2(head);
+    }
+
+    // 迭代法，说白了就是遍历
+    private ListNode method1(ListNode head) {
+        ListNode curNode = head;
+        ListNode preNode = null;
+        while (curNode != null) {
+            // 当前节点不为空，那么下面的代码指行后当前节点就会是头
+            head = curNode;
+            ListNode nextNode = curNode.next;
+            curNode.next = preNode;
+            preNode = curNode;
+            curNode = nextNode;
+        }
+        return head;
+    }
+
+    // 递归法
+    private ListNode method2(ListNode head) {
+        // 递归就是要假设已知，先假设某个方法可以完成反转。
+        return reverse(head);
+    }
+
+    private ListNode reverse(ListNode head) {
+        ListNode next = head.next;
+        if (next == null) {
+            return head;
+        }
+        ListNode h = reverse(next);
+        next.next = head;
+        head.next = null;
+        return h;
+    }
 }
