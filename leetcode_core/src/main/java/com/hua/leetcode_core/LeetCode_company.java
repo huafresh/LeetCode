@@ -2,9 +2,11 @@ package com.hua.leetcode_core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 /**
  * @author zhangsh
@@ -812,5 +814,22 @@ public class LeetCode_company {
         next.next = head;
         head.next = null;
         return h;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/contains-duplicate/submissions/">存在重复元素</a>
+     */
+    public boolean containsDuplicate(int[] nums) {
+        // 插入排序法对数组排序，排的过程中就能判断是否存在重复元素。
+        // 提交后发现超时了，原来插入排序算法的时间复杂度是O(n^2)，并不适合大数据量的排序。
+        // 看了题解后，此题的解法有：1、排序后遍历；2、利用hash表，以空间换时间。
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (set.contains(num)) {
+                return true;
+            }
+            set.add(num);
+        }
+        return false;
     }
 }
