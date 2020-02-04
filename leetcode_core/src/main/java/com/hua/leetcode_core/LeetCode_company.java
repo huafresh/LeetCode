@@ -1,6 +1,7 @@
 package com.hua.leetcode_core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -738,5 +739,34 @@ public class LeetCode_company {
             }
         }
         return count;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/isomorphic-strings/">同构字符串</a>
+     */
+    public boolean isIsomorphic(String s, String t) {
+        // 题意是这样的：
+        // 比如"egg"，那么e替换为a，g替换为d，则变为"add"
+        // 可以用map保存映射的字符，遍历一遍即可。
+        // 看题解后记：这道题不要想复杂了，确实就是map来搞的。
+        int len = s.length();
+        final HashMap<Character, Character> map = new HashMap<>(len);
+        for (int i = 0; i < len; i++) {
+            char c1 = s.charAt(i);
+            char c2 = t.charAt(i);
+            if (map.containsKey(c1)) {
+                if (map.get(c1) != c2) {
+                    // 映射后和t对应的字符不一致。
+                    return false;
+                }
+            } else {
+                if (map.containsValue(c2)) {
+                    // 不能映射到相同字符
+                    return false;
+                }
+                map.put(c1, c2);
+            }
+        }
+        return true;
     }
 }
