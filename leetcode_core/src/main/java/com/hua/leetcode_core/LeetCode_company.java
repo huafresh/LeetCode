@@ -869,4 +869,65 @@ public class LeetCode_company {
         // 看了题解，虽然思路一样的，不过代码简介很多，直接 n & (n-1) == 0即可判断，666
         return n > 0 && ((n & (n - 1)) == 0);
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/palindrome-linked-list/">回文链表</a>
+     */
+    public boolean isPalindrome(ListNode head) {
+        // 使用快慢两个指针，快指针每次走两步，慢指针一次一步，当快指针到达链表尾部时，慢指针刚好在链表中间。
+        // 同时，慢指针遍历到的元素都进行反转，当慢指针到了链表中点时，再从中点向两边分散遍历，挨个比较即可。
+        // 当然，如果实际链表需要保持原样，那么可以在分散遍历的时候再次反转链表即可。
+        // 看题解后记：如果非要O(1)空间的话，思路和上面本人的思路是一样的，具体代码孰优孰劣就不管了。
+        if (head == null) {
+            return true;
+        }
+        ListNode slow = head;
+        ListNode slowPreNode = null;
+        ListNode fast = head;
+        // 快指针是否刚好走到链表末尾（其实就是链表节点总数是否是奇数）
+        boolean b = true;
+        while (true) {
+            ListNode fastNext = fast.next;
+            if (fastNext != null) {
+                if (fastNext.next == null) {
+                    b = false;
+                } else {
+                    fast = fastNext.next;
+                }
+            } else {
+                break;
+            }
+            // 快指针一定先到末尾，因此慢指针可以不用判空。
+            // slow是当前正在处理的慢指针节点。
+            // 反转链表一般操作：1、先保存next；2、修改当前node.next为preNode；3、修改相关指针开始处理下一个node。
+            ListNode slowNext = slow.next;
+            slow.next = slowPreNode;
+            slowPreNode = slow;
+            slow = slowNext;
+            if (!b) {
+                // b置为false时我们没有break，是为了让慢指针走最后一步，这么做是为了方便后面赋值分散遍历的左右指针
+                break;
+            }
+        }
+        ListNode left;
+        ListNode right;
+        if (b) {
+            // 刚好走到末尾，说明链表节点个数为奇数，此时慢指针刚好在链表中点。
+            // 因此分散遍历的初始节点就是preNode和slow.next
+            left = slowPreNode;
+            right = slow.next;
+        } else {
+            // 快指针走到尾部时还差一个节点，说明链表节点个数为偶数，此时慢指针在中点偏右
+            left = slowPreNode;
+            right = slow;
+        }
+        while (left != null && right != null) {
+            if (left.val != right.val) {
+                return false;
+            }
+            left = left.next;
+            right = right.next;
+        }
+        return true;
+    }
 }
