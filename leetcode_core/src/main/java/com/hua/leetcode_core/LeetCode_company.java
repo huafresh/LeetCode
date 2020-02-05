@@ -860,4 +860,13 @@ public class LeetCode_company {
         }
         return false;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/power-of-two/submissions/">2的幂</a>
+     */
+    public boolean isPowerOfTwo(int n) {
+        // 如果是2的幂次方，那么n-1后对应的二进制低位就全是1。
+        // 看了题解，虽然思路一样的，不过代码简介很多，直接 n & (n-1) == 0即可判断，666
+        return n > 0 && ((n & (n - 1)) == 0);
+    }
 }
