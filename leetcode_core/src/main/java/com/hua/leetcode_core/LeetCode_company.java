@@ -832,4 +832,32 @@ public class LeetCode_company {
         }
         return false;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/contains-duplicate-ii/">存在重复元素 II</a>
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        // 方法1: 第一层循环遍历每个元素，然后第二层循环遍历[i, i+k]，寻找是否有两个值相等。
+        // 方法2: 用HashMap保存元素值以及他们的索引的集合，此法更快但同时也更耗内存。
+        // 看完题解：思路上确实是用Hash表来做的，不过在内存上有些优化，即用HashSet保存遍历的元素，最多保存k个元素，
+        // 超过k个时把最早添加的元素移除，因为该元素不可能会影响最终结果了，如此能节约一点内存，具体代码就不写了。
+        final HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (map.containsKey(num)) {
+                List<Integer> indexList = map.get(num);
+                for (int index : indexList) {
+                    if (Math.abs(index - i) <= k) {
+                        return true;
+                    }
+                }
+                indexList.add(i);
+            } else {
+                List<Integer> indexList = new ArrayList<>();
+                indexList.add(i);
+                map.put(num, indexList);
+            }
+        }
+        return false;
+    }
 }
