@@ -930,4 +930,44 @@ public class LeetCode_company {
         }
         return true;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/">二叉搜索树的最近公共祖先</a>
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // 注意题目，给定的树是二叉搜索树，因此p和q的值和祖先的值具有下述关系：
+        // 1、如果p和q的值小于当前节点的值，那么p和q的最近祖先一定在当前节点的左边；反之则在右边。
+        // 2、在1的基础上遍历，如果当前节点的值等于p或q中的一个，那么当前节点就是要找的最近祖先。
+        // 3、如果p和q中一个大于当前节点一个小于当前节点，那么当前节点就是要找的最近祖先。
+        // 看完题解，思路与上述一致。
+        if (root == null) {
+            return null;
+        }
+        TreeNode curNode = root;
+        while (curNode != null) {
+            if (p.val == curNode.val || q.val == curNode.val) {
+                break;
+            }
+            if (p.val < curNode.val && q.val > curNode.val ||
+                    p.val > curNode.val && q.val < curNode.val) {
+                break;
+            }
+            if (p.val < curNode.val && q.val < curNode.val) {
+                curNode = curNode.left;
+            } else {
+                curNode = curNode.right;
+            }
+        }
+        return curNode;
+    }
+
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode(int x) {
+            val = x;
+        }
+    }
 }
