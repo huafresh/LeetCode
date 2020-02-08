@@ -970,4 +970,108 @@ public class LeetCode_company {
             val = x;
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/valid-anagram/">二叉搜索树的最近公共祖先</a>
+     */
+    public boolean isAnagram(String s, String t) {
+        // 用哈希表保存s的每个字符，然后遍历t的每个字符，看是否能在集合中找到。
+        // 对于unicode字符，目前的理解是s或t可能包含中文，这时候char不知道能否保存，如果不能可以用substring来搞。
+        // 后记：char可以保存一个中文字。
+        // 看了题解：原来题目中的进阶是为了配合题解的，题解中思路和上述一致，不过用的hash表固定为26，因为字母一共就26。
+        // 但是其实这个优化没有必要，根本无需关心输入的字符串字符有多少个类型，往map中存就完了。
+        if (s.length() != t.length()) {
+            return false;
+        }
+        final HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) + 1);
+            } else {
+                map.put(c, 1);
+            }
+        }
+        for (int i = 0; i < t.length(); i++) {
+            char c = t.charAt(i);
+            Integer value = map.get(c);
+            if (value == null) {
+                return false;
+            } else {
+                if (value - 1 > 0) {
+                    map.put(c, value - 1);
+
+                } else {
+                    map.remove(c);
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/binary-tree-paths/submissions/">二叉树的所有路径</a>
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        // 嗯，深度优先遍历二叉树即可。
+        // 后记：深度遍历的时候栈中保存的虽然刚好是当前节点到跟节点的路径，但却不一定是叶子节点到跟节点的路径。
+        // 如果难理解，就看看左边的示例，遍历到5的时候，此时5是叶子节点，但是2已经pop出栈了。。。尴尬。
+        // 看了题解：哎，从一开始思路就错了，这个题和深度优先遍历二叉树无关。解法有递归和层序遍历。
+        // 1、递归：我们假设一个方法可以完成统计子节点的所有路径，那么只需把当前节点插入到每个路径头部即可。
+        // 2、层序遍历：每一层挨个遍历，路径个数不断裂变增多。
+        return method2(root);
+    }
+
+    private List<String> method1(TreeNode root) {
+        List<String> list = new ArrayList<>();
+        buildPath(root, list, root.val + "->");
+        return list;
+    }
+
+    // 参数path保存跟节点到第一个参数node节点的路径
+    private void buildPath(TreeNode node, List<String> list, String path) {
+        if (node.left == null && node.right == null) {
+            list.add(path.substring(0, path.lastIndexOf("->")));
+            return;
+        }
+        if (node.left != null) {
+            buildPath(node.left, list, path + node.left.val + "->");
+        }
+        if (node.right != null) {
+            buildPath(node.right, list, path + node.right.val + "->");
+        }
+    }
+
+    private List<String> method2(TreeNode root) {
+        // 层序遍历二叉树，队列中保存的不仅仅是节点，同时还保存该节点到跟节点的路径。
+        final List<String> list = new ArrayList<>();
+        Queue<NodeWithPath> queue = new LinkedList<>();
+        if (root != null) {
+            queue.add(new NodeWithPath(root, root.val + "->"));
+        }
+        while (!queue.isEmpty()) {
+            NodeWithPath nodePath = queue.poll();
+            TreeNode node = nodePath.node;
+            if (node.left == null && node.right == null) {
+                list.add(nodePath.path.substring(0, nodePath.path.lastIndexOf("->")));
+            }
+            if (node.left != null) {
+                queue.add(new NodeWithPath(node.left, nodePath.path + node.left.val + "->"));
+            }
+            if (node.right != null) {
+                queue.add(new NodeWithPath(node.right, nodePath.path + node.right.val + "->"));
+            }
+        }
+        return list;
+    }
+
+    private static class NodeWithPath {
+        private TreeNode node;
+        private String path;
+
+        private NodeWithPath(TreeNode node, String path) {
+            this.node = node;
+            this.path = path;
+        }
+    }
 }
