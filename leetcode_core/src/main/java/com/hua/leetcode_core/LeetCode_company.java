@@ -1161,4 +1161,19 @@ public class LeetCode_company {
         }
         return false;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/missing-number/submissions/">缺失数字</a>
+     */
+    public int missingNumber(int[] nums) {
+        // 看题的时候就注意到了，返回值只有一个数，因此说明序列中只缺了一个，这样的话只需求和就行了，跟不缺的时候的序列和
+        // 的差值就是缺的那个数了。
+        // 看题解后的改进：因为直接求和有可能会导致数值溢出，因此可以一边遍历一边减去数组的值
+        int sum = 0;
+        for(int i=1;i<=nums.length;i++){
+            sum += i;
+            sum -= nums[i-1];
+        }
+        return sum;
+    }
 }
