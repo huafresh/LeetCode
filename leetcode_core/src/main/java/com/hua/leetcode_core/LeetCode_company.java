@@ -1211,4 +1211,26 @@ public class LeetCode_company {
     private boolean isBadVersion(int version) {
         return true;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/move-zeroes/">移动零</a>
+     */
+    public void moveZeroes(int[] nums) {
+        // 一趟遍历，遇到0就把0抠出来使对应位置成为一个空位，然后往后遍历到非0数字时把该数字放到之前的空位上
+        // 那么非0所在的位置又成为新的空位，如此往复。不需要保存抠出来的0，最后数组末尾全部补0即可。
+        int emptyIndex = -1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                if (emptyIndex == -1) {
+                    emptyIndex = i;
+                }
+            } else {
+                if (emptyIndex != -1) {
+                    nums[emptyIndex] = nums[i];
+                    emptyIndex++;
+                    nums[i] = 0;
+                }
+            }
+        }
+    }
 }
