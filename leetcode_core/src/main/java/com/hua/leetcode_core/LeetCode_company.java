@@ -1186,4 +1186,29 @@ public class LeetCode_company {
         }
         return miss;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/first-bad-version/submissions/">第一个错误的版本</a>
+     */
+    public int firstBadVersion(int n) {
+        // 尽量减少次数，目前想到的方法是二分法
+        // PS: 慎用递归，容易栈溢出。
+        // PS2: 完了，二分法都超时了。
+        // 看了题解，原来此题解法确实是二分法，不过代码写的有问题，(start+end)/2可能溢出。。。
+        int start = 0;
+        int end = n;
+        while (start != end) {
+            int half = start + (end - start) / 2;
+            if (isBadVersion(half)) {
+                end = half;
+            } else {
+                start = half + 1;
+            }
+        }
+        return start;
+    }
+
+    private boolean isBadVersion(int version) {
+        return true;
+    }
 }
