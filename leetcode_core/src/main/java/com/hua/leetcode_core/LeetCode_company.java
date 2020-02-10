@@ -1074,4 +1074,64 @@ public class LeetCode_company {
             this.path = path;
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/add-digits/submissions/">各位相加</a>
+     */
+    public int addDigits(int num) {
+        // 先用最常规的解决吧，然后看看怎么优化。
+        // return addDigitsNormal(num);
+        // 看题解后：
+        // 首先即数字n的各位和为函数f(n)，根据123 = 1*(99+1) + 2*(9+1) + 3可知: 1+2+3 = 123-99-2*9 = 123 - (11+2)*9
+        // 由此可见，每当增加一个非个位的位时，f(n)就要减去9、99、999、...等一系列值的倍数，那么抽象一下公式就是：
+        // f(n) = n - 9*k (k是常数)
+        // 首先可以肯定f(n)一定是小于10的，因为如果大于10，那么改变上面式子的k值就总能使f(n)的值重新变成小于10.
+        // 想一想，当k等于什么的时候，会使f(n)是个位数并且取值范围是[1,9]呢？
+        // 要分两种情况讨论：
+        // 1、n能被9整除，此时公式可以变为：f(n)=n-9*k=9*m-9*k=9*(m-k)=9k (k为常数)，那么此时k只能取1，f(n)=9。
+        // 2、n不能被9整除，那么只需令k=n/9即可，此时f(n)=n%9。
+        // 因此写出如下初版O(1)算法：
+        // return addDigitsFn(num);
+        // 我们尝试继续改进初版O(1)算法。
+        // 如果n可以被9整除，那么n-1一定不能被9整除，因此根据上述情况2有：f(n-1)=(n-1)%9，
+        // 又因为f(n)=f(n-1)+1（这个公式注意理解各位和的定义就很容易得出），所以n可以被9整除时，有：f(n)=(n-1)%9+1。
+        // 当n不能被9整除时，此时又可分两种情况：
+        // 1、n-1可被9整除：此时有f(n) = n - 9*k = n-1-9*k+1 = 9*m-9*k+1 = 9k+1 k是常数。此时k只能为0，则f(n)为1，
+        // 这和(n-1)%9+1这个式子的计算结果一致。
+        // 2、n-1不可被9整除：此时有f(n) = f(n-1)+1 = (n-1)%9+1
+        // 综上所述，不管n能不能被9整除，都可以用(n-1)%9+1来算各位和。因此改进的O(1)算法如下：
+        return addDigitsFn2(num);
+    }
+
+    public int addDigitsNormal(int num) {
+        int sum = num;
+        while (true) {
+            int tempSum = 0;
+            while (sum > 0) {
+                tempSum += sum % 10;
+                sum = sum / 10;
+            }
+            sum = tempSum;
+            if (tempSum / 10 == 0) {
+                break;
+            }
+        }
+        return sum;
+    }
+
+    // 初版O(1)解法
+    public int addDigitsFn(int num) {
+        // 注意输入可能是0
+        if (num != 0 && num % 9 == 0) {
+            return 9;
+        } else {
+            return num % 9;
+        }
+    }
+
+    // 改进O(1)解法
+    public int addDigitsFn2(int n) {
+        // 注意输入可能是0
+        return (n - 1) % 9 + 1;
+    }
 }

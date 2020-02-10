@@ -856,6 +856,36 @@ public class LeetCodeMain {
             rev = rev * 10 + pop;
         }
 
+
+//        android.permission.INTERNET  联网
+//        android.permission.CAMERA  拍照
+//        android.permission.READ_EXTERNAL_STORAGE  读取本地文件
+//        android.permission.WRITE_EXTERNAL_STORAGE  保存文件到本地
+//        android.permission.READ_PHONE_STATE  获取imei计算deviceId
+//        android.permission.ACCESS_WIFI_STATE 检查手机是否连接wifi
+//        android.permission.RECORD_AUDIO 录音
+//        android.permission.MODIFY_AUDIO_SETTINGS  修改手机音量
+//        android.permission.ACCESS_COARSE_LOCATION 定位需要
+//        android.permission.ACCESS_FINE_LOCATION 定位需要
+//        android.permission.VIBRATE  手机震动
+//        android.permission.REQUEST_INSTALL_PACKAGES  安装Apk
+//        android.permission.DOWNLOAD_WITHOUT_NOTIFICATION 下载更新包的时候不在通知栏显示
+//        android.permission.REORDER_TASKS
+//        android.permission.ACCESS_NETWORK_STATE 检查网络状态
+//
+//        android.permission.KILL_BACKGROUND_PROCESSES
+//        android.permission.CHANGE_NETWORK_STATE
+//        android.permission.CHANGE_WIFI_STATE
+//        android.permission.RECORD_VIDEO
+//        android.permission.RECEIVE_BOOT_COMPLETED
+//        android.permission.BLUETOOTH
+//        android.permission.SYSTEM_ALERT_WINDOW
+//        android.permission.WRITE_SETTINGS
+//        android.permission.READ_SETTINGS
+//        android.permission.GET_TASKS
+//        android.permission.READ_LOGS
+//        android.permission.CALL_PHONE 打电话
+
         return rev;
 
 
