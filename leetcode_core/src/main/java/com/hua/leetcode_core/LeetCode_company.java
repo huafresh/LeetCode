@@ -1134,4 +1134,31 @@ public class LeetCode_company {
         // 注意输入可能是0
         return (n - 1) % 9 + 1;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/ugly-number/">丑数</a>
+     */
+    public boolean isUgly(int num) {
+        // 题意的意思是：把一个正整数分解质因数，每一个质因数只能是2、3、5中的一个。
+        // 所以这个问题其实就变成求num的分解质因数，算法步骤：
+        // 首先分解后的质因数一定是质数，不然的话就可以进一步分解了，所以算法的第一步首先找出是质数且能整除num的数k，然后
+        // num/k作为新的num重复以上步骤，即可把所有的质因数求出来。
+        // PS：经过实践，质数被认为是丑数。
+        // 上述思路会超时，因此后面改成下面的方式，题解也差不多这样的思路。
+        int tempNum = num;
+        while (tempNum > 0) {
+            if (tempNum % 2 == 0) {
+                tempNum = tempNum / 2;
+                continue;
+            } else if (tempNum % 3 == 0) {
+                tempNum = tempNum / 3;
+                continue;
+            } else if (tempNum % 5 == 0) {
+                tempNum = tempNum / 5;
+                continue;
+            }
+            return tempNum == 1;
+        }
+        return false;
+    }
 }
