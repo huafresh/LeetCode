@@ -1233,4 +1233,52 @@ public class LeetCode_company {
             }
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/word-pattern/">单词规律</a>
+     */
+    public boolean wordPattern(String pattern, String str) {
+        // 注意理解题意；是要和str中的单词有对应规律，而不是str中的字母。
+        //之前做过类似的题，之前是字母对字母，而这里就是字母对单词，用哈希表即可。
+        // 类似的题一定要注意以下陷阱：
+        // 1、不仅pattern要对应str，str也要对应pattern。
+        // 2、pattern的字母个数和str的单词个数要一致。
+        // 题解后记：从str中提取每一个单词其实还有个思路就是用split，这样的话可以降低复杂度，但是增加了额外的数组保存。
+        final HashMap<Character, String> map = new HashMap<>();
+        int wordIndex = 0;
+        int i = 0;
+        for (i = 0; i < pattern.length(); i++) {
+            if (wordIndex >= str.length()) {
+                // 单词个数长度不够
+                return false;
+            }
+            char c = pattern.charAt(i);
+            // 下while循环获取下一个单词
+            int endIndex = wordIndex;
+            String word = "";
+            while (endIndex < str.length()) {
+                if (str.charAt(endIndex) == ' ') {
+                    break;
+                } else {
+                    endIndex++;
+                }
+            }
+            word = str.substring(wordIndex, endIndex);
+            wordIndex = endIndex + 1;
+
+            System.out.println("word = " + word);
+            if (map.containsKey(c)) {
+                if (!map.get(c).equals(word)) {
+                    return false;
+                }
+            } else {
+                if (map.containsValue(word)) {
+                    return false;
+                }
+                map.put(c, word);
+            }
+        }
+        // 如果循环结束时如果是匹配的，wordIndex的值便是固定的
+        return wordIndex == str.length() + 1;
+    }
 }
