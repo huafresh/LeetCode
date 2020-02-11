@@ -1281,4 +1281,40 @@ public class LeetCode_company {
         // 如果循环结束时如果是匹配的，wordIndex的值便是固定的
         return wordIndex == str.length() + 1;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/bulls-and-cows/submissions/">猜数字游戏</a>
+     */
+    public String getHint(String secret, String guess) {
+        // 用哈希表，需要2趟遍历，还有就是一点额外的空间
+        // 看完题解：两趟遍历有些多余了，题解中有个思路是用大小为10的数组保存每个数字出现的次数，
+        // 如果数字在secret则加2，反之在guss则减1，最后遍历数组，那么数组中为0的位置就是被猜中或不在secret中的数字。
+        int aCount = 0;
+        int bCount = 0;
+        int[] array = new int[10];
+        for (int i = 0; i < secret.length(); i++) {
+            char s = secret.charAt(i);
+            char g = guess.charAt(i);
+            if (s == g) {
+                // 顺便统计公牛的个数。
+                aCount++;
+            } else {
+                array[s - '0'] += 1;
+                array[g - '0'] -= 1;
+            }
+        }
+        int nonZeroCount = 0;
+        for (int i = 0; i < 10; i++) {
+            if (array[i] > 0) {
+                nonZeroCount += array[i];
+            }
+        }
+        // 注意这个式子，是这个解法的精髓：
+        // 首先，数组一开始全是0，当遍历时，secret中的数字会不断使对应index上的值增大，而guess中的数字则会不断使对应index的值减小，
+        // 如果某个数字被完全猜中了，因此数组中的值会是0，和数组中的其他0混在一起了，因此无法统计。但是我们可以换个思路：数组中不为0的数的总和，
+        // 就是没有被猜中的数字的总和，而被猜的数字一共有secret.length()个，那么很显然secret.length() - nonZeroCount - aCount就是被猜中的数字个数。
+        // 减去aCount的原因是secret.length()是总的数字个数，包含了公牛数字。
+        bCount = secret.length() - nonZeroCount - aCount;
+        return aCount + "A" + bCount + "B";
+    }
 }
