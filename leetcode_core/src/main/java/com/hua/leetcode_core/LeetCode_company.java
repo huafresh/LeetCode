@@ -1389,4 +1389,40 @@ public class LeetCode_company {
             right--;
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/reverse-vowels-of-a-string/">反转字符串中的元音字母</a>
+     */
+    public String reverseVowels(String s) {
+        // 元音字母是指：a、e、i、o、u
+        // 可见，这题是要我们把元音字母替换成对称位置的元音字母。
+        // 后记：String.replace()方法无法指定index的，因此其内部实现会遍历字符串，比较耗时，
+        // 所以下面的实现以空间换时间。
+        final StringBuilder builder = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            char newC;
+            switch (c) {
+                case 'a':
+                    newC = 'u';
+                    break;
+                case 'e':
+                    newC = 'o';
+                    break;
+                case 'i':
+                    newC = 'i';
+                    break;
+                case 'o':
+                    newC = 'e';
+                    break;
+                case 'u':
+                    newC = 'a';
+                    break;
+                default:
+                    newC = c;
+            }
+            builder.append(newC);
+        }
+        return builder.toString();
+    }
 }
