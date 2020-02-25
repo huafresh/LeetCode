@@ -1317,4 +1317,28 @@ public class LeetCode_company {
         bCount = secret.length() - nonZeroCount - aCount;
         return aCount + "A" + bCount + "B";
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/range-sum-query-immutable/">区域和检索 - 数组不可变</a>
+     */
+    // 这个题不难，应该考的是sumRange多次调用时如何优化。
+    // 看完题解：用另一个数组保存[0,i]之间的和记为sum[k]，那么i~j范围的和就是：
+    // sum[i~j] = sum[j] - sum[i];
+    class NumArray {
+        private int[] sumArray;
+
+        public NumArray(int[] nums) {
+            // 为保持下面代码的统一，sumArray的第一位保存0
+            sumArray = new int[nums.length + 1];
+            sumArray[0] = 0;
+            for (int i = 1; i <= nums.length; i++) {
+                sumArray[i] = sumArray[i - 1] + nums[i - 1];
+            }
+        }
+
+        public int sumRange(int i, int j) {
+            // 先加1是为了和sumArray对应上，而后面又减1则要理解题意：和包括了i和j。
+            return sumArray[j + 1] - sumArray[i + 1 - 1];
+        }
+    }
 }
