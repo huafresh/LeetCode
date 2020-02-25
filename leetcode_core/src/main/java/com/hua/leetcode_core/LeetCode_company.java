@@ -444,7 +444,9 @@ public class LeetCode_company {
 
         ListNode p1 = headA;
         ListNode p2 = headB;
-        if (p1 == null || p2 == null) return null;
+        if (p1 == null || p2 == null) {
+            return null;
+        }
         while (p1 != p2) {
             p1 = p1 == null ? headB : p1.next;
             p2 = p2 == null ? headA : p2.next;
@@ -1355,5 +1357,17 @@ public class LeetCode_company {
         // 具体如下：参数n是int型，因此3^n < Integer.MAX_VALUE，此时n最大值为19，因此，如果参数n是3的幂次方，
         // 那么可以肯定可以把3^19整除
         return n > 0 && Math.pow(3, 19) % n == 0;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/power-of-four/submissions/">4的幂</a>
+     */
+    public boolean isPowerOfFour(int num) {
+        // 刚做完题“3的幂”，不过此题可以有别的解法：4的幂，实际上就是2的幂，然后n是偶数。
+        // 对于2的幂，有个规律就是(num-1)的低位全是1，幂是奇数时则1的个数为奇数；否则反之。
+        // 题解：首先判断是2的幂，然后判断num的1的位置，只需和 0x1010 1010 ..., 相与就能判断了，很巧妙。
+        boolean isPowerOfTwo = ((num - 1) & num) == 0;
+        boolean isDouble = (num & 0xaaaaaaaa) == 0;
+        return num > 0 && isPowerOfTwo && isDouble;
     }
 }
