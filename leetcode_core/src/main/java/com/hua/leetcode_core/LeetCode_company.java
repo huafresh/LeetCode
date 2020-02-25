@@ -1370,4 +1370,23 @@ public class LeetCode_company {
         boolean isDouble = (num & 0xaaaaaaaa) == 0;
         return num > 0 && isPowerOfTwo && isDouble;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/reverse-string/">反转字符串</a>
+     */
+    public void reverseString(char[] s) {
+        // 双指针遍历，应该没有更高效的方法了吧？
+        if (s == null) {
+            return;
+        }
+        int left = 0;
+        int right = s.length - 1;
+        while (left < right) {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
+    }
 }
