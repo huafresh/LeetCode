@@ -1341,4 +1341,19 @@ public class LeetCode_company {
             return sumArray[j + 1] - sumArray[i + 1 - 1];
         }
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/power-of-three/submissions/">3的幂</a>
+     */
+    public boolean isPowerOfThree(int n) {
+        // 如果不能循环，难道还有一步到位的解法？
+        // while(n>0 && n%3==0){
+        //     n = n/3;
+        // }
+        // return n==1;
+        // 看了题解：这题其实严格意义上没有一步到位的解法，题解中最巧妙的解法也是利用这题n的值为int类型的限制实现的
+        // 具体如下：参数n是int型，因此3^n < Integer.MAX_VALUE，此时n最大值为19，因此，如果参数n是3的幂次方，
+        // 那么可以肯定可以把3^19整除
+        return n > 0 && Math.pow(3, 19) % n == 0;
+    }
 }
