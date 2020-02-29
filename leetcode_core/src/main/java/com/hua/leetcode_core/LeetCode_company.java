@@ -1395,34 +1395,47 @@ public class LeetCode_company {
      */
     public String reverseVowels(String s) {
         // 元音字母是指：a、e、i、o、u
-        // 可见，这题是要我们把元音字母替换成对称位置的元音字母。
-        // 后记：String.replace()方法无法指定index的，因此其内部实现会遍历字符串，比较耗时，
-        // 所以下面的实现以空间换时间。
-        final StringBuilder builder = new StringBuilder(s.length());
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            char newC;
-            switch (c) {
-                case 'a':
-                    newC = 'u';
-                    break;
-                case 'e':
-                    newC = 'o';
-                    break;
-                case 'i':
-                    newC = 'i';
-                    break;
-                case 'o':
-                    newC = 'e';
-                    break;
-                case 'u':
-                    newC = 'a';
-                    break;
-                default:
-                    newC = c;
-            }
-            builder.append(newC);
+        // 后记：题目意思理解错误了，题意是要对应交换字符串中元音字母的位置。
+        if (s == null) {
+            return null;
         }
-        return builder.toString();
+        if ("".equals(s)) {
+            return "";
+        }
+        final StringBuilder leftBuilder = new StringBuilder();
+        final StringBuilder rightBuilder = new StringBuilder();
+        int leftIndex = 0;
+        int rightIndex = s.length() - 1;
+        while (leftIndex < rightIndex) {
+            char left = s.charAt(leftIndex);
+            char right = s.charAt(rightIndex);
+            if ((isVowel(left)) && isVowel(right)) {
+                leftBuilder.append(right);
+                rightBuilder.insert(0, left);
+                leftIndex++;
+                rightIndex--;
+            } else if (isVowel(left)) {
+                rightIndex--;
+                rightBuilder.insert(0, right);
+            } else if (isVowel(right)) {
+                leftIndex++;
+                leftBuilder.append(left);
+            } else {
+                leftIndex++;
+                rightIndex--;
+                leftBuilder.append(left);
+                rightBuilder.insert(0, right);
+            }
+        }
+        if (leftIndex == rightIndex) {
+            leftBuilder.append(s.charAt(leftIndex));
+        }
+        leftBuilder.append(rightBuilder.toString());
+        return leftBuilder.toString();
+    }
+
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
+                c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
 }
