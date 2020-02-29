@@ -1499,4 +1499,30 @@ public class LeetCode_company {
         }
         return ret;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/valid-perfect-square/">有效的完全平方数</a>
+     */
+    public boolean isPerfectSquare(int num) {
+        // 所谓完全平方数，是指该数=某个整数的平方。
+        // 该整数的范围是[1,n]，因此可以二分法进行定位。
+        int min = 1;
+        int max = num;
+        while (min < max) {
+            int middle = min + (max - min) / 2;
+            if (middle == num / middle && num % middle == 0) {
+                return true;
+            }
+            if (middle == min) {
+                // 最终中位数会等于较小值
+                break;
+            }
+            if (middle < num / middle) {
+                min = middle;
+            } else {
+                max = middle;
+            }
+        }
+        return num == 1;
+    }
 }
