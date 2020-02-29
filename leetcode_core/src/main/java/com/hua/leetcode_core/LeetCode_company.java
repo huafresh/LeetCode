@@ -1438,4 +1438,33 @@ public class LeetCode_company {
         return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' ||
                 c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/intersection-of-two-arrays/submissions/">两个数组的交集</a>
+     */
+    public int[] intersection(int[] nums1, int[] nums2) {
+        // 用HashSet以空间换时间
+        final HashSet<Integer> result = new HashSet<>();
+        final HashSet<Integer> temp = new HashSet<>();
+        if (nums1.length > nums2.length) {
+            int[] num = nums2;
+            nums2 = nums1;
+            nums1 = num;
+        }
+        for (int i = 0; i < nums1.length; i++) {
+            temp.add(nums1[i]);
+        }
+        for (int i = 0; i < nums2.length; i++) {
+            int n = nums2[i];
+            if (temp.contains(n)) {
+                result.add(n);
+            }
+        }
+        int[] ret = new int[result.size()];
+        int index = 0;
+        for (int num : result) {
+            ret[index++] = num;
+        }
+        return ret;
+    }
 }
