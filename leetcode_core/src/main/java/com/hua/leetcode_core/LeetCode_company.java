@@ -1,6 +1,7 @@
 package com.hua.leetcode_core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1463,6 +1464,37 @@ public class LeetCode_company {
         int[] ret = new int[result.size()];
         int index = 0;
         for (int num : result) {
+            ret[index++] = num;
+        }
+        return ret;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/intersection-of-two-arrays-ii/submissions/">两个数组的交集 II</a>
+     */
+    public int[] intersect(int[] nums1, int[] nums2) {
+        // 方案一：省空间：先排序后遍历
+        // 方案二：省时间：HashMap
+        // 前面有类似的题用哈希表解过了，这里用方案一试试。
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        final List<Integer> list = new ArrayList<>();
+        int p1 = 0;
+        int p2 = 0;
+        while (p1 < nums1.length && p2 < nums2.length) {
+            if (nums1[p1] == nums2[p2]) {
+                list.add(nums1[p1]);
+                p1++;
+                p2++;
+            } else if (nums1[p1] < nums2[p2]) {
+                p1++;
+            } else if (nums1[p1] > nums2[p2]) {
+                p2++;
+            }
+        }
+        int[] ret = new int[list.size()];
+        int index = 0;
+        for (int num : list) {
             ret[index++] = num;
         }
         return ret;
