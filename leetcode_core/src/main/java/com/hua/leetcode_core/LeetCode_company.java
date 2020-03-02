@@ -1525,4 +1525,42 @@ public class LeetCode_company {
         }
         return num == 1;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/sum-of-two-integers/submissions/">两整数之和</a>
+     */
+    public int getSum(int a, int b) {
+        // 遍历32次，每一个bit抠出来挨个处理。
+        // int k = 0; // 记录上一个bit位处理产生的进位，为0或者1.
+        // int result = 0;
+        // for(int i=0;i<32;i++){
+        //     int aBit = (a&(1<<i)) == 0 ? 0: 1;
+        //     int bBit = (b&(1<<i)) == 0 ? 0: 1;
+        //     // 这里用加号应该可以吧，如果不行那就if else穷举吧。
+        //     int bitSum = aBit + bBit + k;
+        //     if(bitSum==1 || bitSum==3){
+        //         result |= 1<<i;
+        //     }
+        //     if(bitSum>=2){
+        //         k = 1;
+        //     } else {
+        //         k = 0;
+        //     }
+        // }
+        // return result;
+        // 看了题解后，感觉网友的思路要更简洁巧妙一些。
+        // 首先要知道以下结论：
+        // 1、(a & b)<<1即为a+b时各个位的进位情况；
+        // 2、(a ^ b)刚好就是不考虑进位时各个位的情况。
+        // 因此 a + b可以变为 ((a & b)<<1) + (a ^ b)，即：不考虑进位+进位，
+        // 分解后也是求和，因此可以重复分解，直至进位为0；
+
+        while (b != 0) { // 这里借b存储进位值
+            int temp = b;
+            b = (a & b) << 1;
+            a = (temp ^ a);
+        }
+        // a存储不考虑进位情况的值。
+        return a;
+    }
 }
