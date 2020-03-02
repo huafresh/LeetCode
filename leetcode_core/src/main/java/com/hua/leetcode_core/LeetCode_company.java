@@ -1589,4 +1589,33 @@ public class LeetCode_company {
     private int guess(int num) {
         return 0;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/ransom-note/submissions/">赎金信</a>
+     */
+    public boolean canConstruct(String ransomNote, String magazine) {
+        // 本题的意思：
+        // 1、ransom中出现的字符，magazine中也要出现，并且数量要足够；
+        // 2、字符顺序可以不一致。
+        // 用hashMap存储magazine中的字符以及字符个数即可。
+        // 看了题解后，有两个其他思路可供参考：
+        // 1、利用String的indexOf来判断ransomNote中的字符是否在magazine中也有，
+        // 因为字符是可能重复的，因此用了一个caps数组来保存下一次index的起始位置。
+        // 从结果来看此法确实最快的(1ms)，不过仔细想想就知道indexOf方法是比较耗时的，它内部的实现其实就是遍历。
+        // 2、第二个解法是用数组保存magazine中每个字符出现的次数，然后遍历ransomNote，每次对应字符减1，如果为负数，则return false。
+        // 解法2目前个人觉得是最靠谱的，虽然在内存消耗上和哈希表差不多，但是代码显然看起来更简洁。
+        int[] countArray = new int['z' - 'a' + 1];
+        for (int i = 0; i < magazine.length(); i++) {
+            char c = magazine.charAt(i);
+            countArray[c - 'a'] += 1;
+        }
+        for (int i = 0; i < ransomNote.length(); i++) {
+            char c = ransomNote.charAt(i);
+            countArray[c - 'a'] -= 1;
+            if (countArray[c - 'a'] < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
