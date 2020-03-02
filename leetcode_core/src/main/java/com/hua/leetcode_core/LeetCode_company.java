@@ -1555,12 +1555,38 @@ public class LeetCode_company {
         // 因此 a + b可以变为 ((a & b)<<1) + (a ^ b)，即：不考虑进位+进位，
         // 分解后也是求和，因此可以重复分解，直至进位为0；
 
-        while (b != 0) { // 这里借b存储进位值
+        // 这里借b存储进位值
+        while (b != 0) {
             int temp = b;
             b = (a & b) << 1;
             a = (temp ^ a);
         }
         // a存储不考虑进位情况的值。
         return a;
+    }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/guess-number-higher-or-lower/submissions/">猜数字大小</a>
+     */
+    public int guessNumber(int n) {
+        // 二分法吧
+        int half;
+        int start = 1;
+        int end = n;
+        while (true) {
+            half = start + (end - start) / 2;
+            int result = guess(half);
+            if (result == 0) {
+                return half;
+            } else if (result == 1) {
+                start = half + 1;
+            } else {
+                end = half - 1;
+            }
+        }
+    }
+
+    private int guess(int num) {
+        return 0;
     }
 }
