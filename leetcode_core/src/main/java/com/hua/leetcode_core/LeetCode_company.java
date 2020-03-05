@@ -1644,4 +1644,19 @@ public class LeetCode_company {
         }
         return min == Integer.MAX_VALUE ? -1 : min - 1;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/find-the-difference/submissions/">找不同</a>
+     */
+    public char findTheDifference(String s, String t) {
+        // 到目前为止做过满多这种统计字符个数的题了，这题也一样可以用一个数组来统计每个字符出现的次数。
+        // 看完题解：发现此题有更巧妙的解法，那就是两两异或。嗯，记住了，消消乐就用异或。
+        int n = s.length();
+        int result = t.charAt(n);
+        for (int i = 0; i < n; i++) {
+            result ^= s.charAt(i);
+            result ^= t.charAt(i);
+        }
+        return (char) result;
+    }
 }
