@@ -1618,4 +1618,30 @@ public class LeetCode_company {
         }
         return true;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/first-unique-character-in-a-string/">字符串中的第一个唯一字符</a>
+     */
+    public int firstUniqChar(String s) {
+        // 用一个数组统计每个字符出现的次数即可。
+        // 不过题意要返回字符的索引，所以需要做一些调整：可以开始让数组为0，
+        // 如果第一次出现，则相应位置保存字符索引；如果第二次出现则相应位置置为-1，表示该字符不唯一。
+        // 最后遍历数组，找出>0，且最小的索引即为答案。
+        int[] countArray = new int['z' - 'a' + 1];
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (countArray[c - 'a'] == 0) {
+                countArray[c - 'a'] = i + 1; // 保存加1，和0区分开。
+            } else {
+                countArray[c - 'a'] = -1;
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < countArray.length; i++) {
+            if (countArray[i] > 0) {
+                min = Math.min(countArray[i], min);
+            }
+        }
+        return min == Integer.MAX_VALUE ? -1 : min - 1;
+    }
 }
