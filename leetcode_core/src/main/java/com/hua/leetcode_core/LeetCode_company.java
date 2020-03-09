@@ -1649,7 +1649,7 @@ public class LeetCode_company {
      * <a href = "https://leetcode-cn.com/problems/find-the-difference/submissions/">找不同</a>
      */
     public char findTheDifference(String s, String t) {
-        // 到目前为止做过满多这种统计字符个数的题了，这题也一样可以用一个数组来统计每个字符出现的次数。
+        // 到目前为止做过蛮多这种统计字符个数的题了，这题也一样可以用一个数组来统计每个字符出现的次数。
         // 看完题解：发现此题有更巧妙的解法，那就是两两异或。嗯，记住了，消消乐就用异或。
         int n = s.length();
         int result = t.charAt(n);
@@ -1659,4 +1659,82 @@ public class LeetCode_company {
         }
         return (char) result;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/is-subsequence/submissions/">判断子序列</a>
+     */
+    public boolean isSubsequence(String s, String t) {
+        // 标签提到贪心算法，瞬间就有点思路了。
+        // 我们可以遍历一遍t，每个字符和s的字符比较，相等则比较s的下一个字符。
+        // 对于后续挑战：s有很多的情况下，对每一个s都遍历一次t显然不划算，因此可以统一在一趟遍历下完成所有s的判断，
+        // 这个时候需要有个数组分别记录s已经匹配的index。
+        // if("".equals(s) || s == null){
+        //     return true;
+        // }
+        // int sIndex = 0;
+        // for(int i =0;i<t.length();i++){
+        //     if(t.charAt(i) == s.charAt(sIndex)){
+        //         sIndex++; // 第一个字符找到了，开始匹配第二个字符
+        //     }
+        //     if(sIndex == s.length()){
+        //         break;
+        //     }
+        // }
+        // return sIndex == s.length();
+        // 关于挑战，看了下题解，看来本人上面的思路是不行滴，其实也预感到了，10亿的数据量，搞成数组那内存要炸了吧？
+        // 题解给的思路如下：先花时间对t字符串进行深度处理，使得能迅速判断s是否为t的子串(O(n)时间)。要想O(n)完成判断，也就是
+        // 针对s只遍历一遍，那么就需要针对遍历的每个s的字符，都需要在O(1)时间内判断该字符是否在t中，并且要考虑顺序问题。由此，我们可以建立一个二维数组，
+        // 纵轴是从'a'~'z'26个字母，横轴是[0,t.len)，举个例子，针对t="abcabc"，二维数组如下：
+        //      0   1   2   3   4   5
+        // 'a'  3   3   3  -1  -1  -1
+        // 'b'  1   4   4   4  -1  -1
+        // 'c'  2   2   5   5   5  -1
+        // 让我们来解释下上面的矩阵的含义：
+        // 首先考虑字符'a'，然后我们从后往前遍历，index=5处的字符为c，与a不想等，因此填-1，如此继续往前遍历，index=3时的字符为a，与a相等，
+        // 因此修改后续的赋值为3，即上矩阵中0～2皆为3，当遍历到index=0时，赋值应当修改为0，不过因为前面已经没有字符了，因此0未出现在矩阵中。
+        // 对于另外的字符b和c，皆有上述之算法进行填值。
+        // 其实，不仅仅是index为0，每一次index的字符和a相等时，修改后的赋值总是要在下一次遍历才会体现出来，为此我们给t插入一个空字符就可以刚好解决这个问题，
+        // 插入空字符后的矩阵情况如下：（注意此时横坐标index=0是空字符' '）
+        //      0   1   2   3   4   5    6
+        // 'a'  0   3   3   3  -1  -1   -1
+        // 'b'  1   1   4   4   4  -1   -1
+        // 'c'  2   2   2   5   5   5   -1
+        // 仔细观察上述矩阵，你会发现矩阵中保存的值就是对应的字符在t串中下一次出现的index，如果为-1表示后续未出现了。
+        // 那这样的话，判断每一个s串是否是t的子串就简单了，只需一趟遍历即可，具体往后看下代码就理解了。
+        t = " " + t;
+        int tLen = t.length();
+        int[][] indexArray = new int[tLen]['z' - 'a' + 1];
+        for (int i = 'a'; i <= 'z'; i++) {
+            char c = (char) i;
+            int nextPos = -1;
+            // 每一个字符都要遍历t，可见是比较费时的，但是只要得到了处理后的矩阵之后，后续判断s就会很快了。
+            for (int j = tLen - 1; j >= 0; j--) {
+                indexArray[j][c - 'a'] = nextPos;
+                if (t.charAt(j) == c) {
+                    nextPos = j; // 修改赋值，下一次遍历生效。
+                }
+            }
+        }
+        // 矩阵预处理完毕，后面只需一趟遍历s串即可。
+        int index = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // 看题解时这行代码一直百思不得其解，为什么上一个char的index可以作为下一个char的index呢？
+            // 之所以不理解是因为把矩阵错误的想成是严格的保存了字符在t中出现的index，比如还是上例t="abcabc"来说，
+            // 开始以为矩阵是这样的：
+            //      0   1   2   3   4   5
+            // 'a'  3  -1  -1  -1  -1  -1
+            // 来解读下，首先index为0处保存了3，不为-1，因此index=0处有字符a，然后保存的值为3，即为下一个a的位置。
+            // index为3时保存的是-1，表示没有下一个a了。
+            // 如果是上面这样理解，那么下面这行代码就无论如何也无法理解了。
+            // 后面才恍然大悟，原来遍历t时，不等于a字符的位置上保存的并非-1，而是上一次遍历出现a的index啊！！！
+            // 所以这里不仅上一次遍历得到的index可以作为横坐标，index+1也可以的啊（当然前提是t中a字符不能连续）。
+            index = indexArray[index][c - 'a'];
+            if (index == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
