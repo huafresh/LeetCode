@@ -1737,4 +1737,60 @@ public class LeetCode_company {
         return true;
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/binary-watch/">二进制手表</a>
+     */
+    public List<String> readBinaryWatch(int num) {
+        // 这题貌似只能是穷举所有情况了，得到1的位置后，我们可以用移位的方式得到十进制值。
+        // 后记：写代码时发现用代码不太好表达排列组合的思想，后面想到递归的方式解决。
+        // 后记PS：注意led灯不能随便亮，因为小时的取值范围只有[0~11]，而4个bit的取值范围是[0,15]
+        // 题解后记：递归法其实有个专有的名次叫回溯算法，百度百科这样说的：回溯算法实际上一个类似枚举的搜索尝试过程，
+        // 主要是在搜索尝试过程中寻找问题的解，当发现已不满足求解条件时，就“回溯”返回，尝试别的路径。
+        // 可以看到和自己写的递归代码思想上很像的，bitPosArray始终保存的是某一种可能的路径。
+        // 后后记：后面优化了一下代码，用一个整型值取代之前的数组，不过没想到耗时和内存都没提升，尴尬了...
+        int bitPosValue = 0; // 低10个bit保存led点亮情况。
+        final List<String> resultList = new ArrayList<>();
+        recursiveCollectBitPos(bitPosValue, 9, num, resultList);
+        return resultList;
+    }
+
+    private void recursiveCollectBitPos(int bitPosValue, int offset, int num, List<String> resultList) {
+        if (offset < num - 1) {
+            // offset是当前正在处理的led等的偏移，最小是0，如果这个值比num小，
+            // 那么说明剩余要分配的值比坑位多(注意要减1，因为offset可以和num相等)，说明当前路径是错误的，忽略之。
+            return;
+        }
+        if (num == 0) {
+            // 说明已完成一种可能的路径
+            String str = bitPosToTimeString(bitPosValue);
+            if (str != null) {
+                resultList.add(0, str);
+            }
+            return;
+        }
+        // 分两个情况继续递归: 1、offset处分配；2、offset处不分配。
+        recursiveCollectBitPos(setBit(bitPosValue, offset), offset - 1, num - 1, resultList);
+        recursiveCollectBitPos(bitPosValue, offset - 1, num, resultList);
+    }
+
+    private int setBit(int bitValue, int pos) {
+        return bitValue | (1 << pos);
+    }
+
+    private String bitPosToTimeString(int bitPosValue) {
+        int hour = 0x0f & (bitPosValue >> 6);
+        if (hour > 11) {
+            return null;
+        }
+        int minute = 0x3f & bitPosValue;
+        if (minute > 59) {
+            return null;
+        }
+        if (minute < 10) {
+            return hour + ":0" + minute;
+        } else {
+            return hour + ":" + minute;
+        }
+    }
+
 }
