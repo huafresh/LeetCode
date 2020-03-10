@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author zhangsh
@@ -1793,4 +1794,36 @@ public class LeetCode_company {
         }
     }
 
+    /**
+     * <a href = "https://leetcode-cn.com/problems/sum-of-left-leaves/">左叶子之和</a>
+     */
+    public int sumOfLeftLeaves(TreeNode root) {
+        // 深度优先周游一下二叉树，广度优先的话不好判断当前节点是否是父节点的左节点。
+        // 看完题解后记：其实层序遍历也可以实现的，就是在遍历的时候判断左节点是否是叶子节点就行，是就加到sum。
+        int sum = 0;
+        final Stack<TreeNode> stack = new Stack<>();
+        TreeNode curNode = root;
+        while (curNode != null || !stack.isEmpty()) {
+            // 一直向左，逐个入栈
+            while (curNode != null) {
+                stack.push(curNode);
+                curNode = curNode.left;
+            }
+            // pop一个出来，取之右节点，赋值给curNode，开始下一轮深度遍历。
+            if (!stack.isEmpty()) {
+                TreeNode pop = stack.pop();
+                TreeNode nextPop = null;
+                if (!stack.isEmpty()) {
+                    nextPop = stack.peek();
+                }
+                // System.out.println(""+pop.val+",");
+                curNode = pop.right;
+                if (pop.left == null && pop.right == null &&
+                        nextPop != null && nextPop.left == pop) {
+                    sum += pop.val;
+                }
+            }
+        }
+        return sum;
+    }
 }
