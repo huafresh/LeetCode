@@ -1826,4 +1826,39 @@ public class LeetCode_company {
         }
         return sum;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/convert-a-number-to-hexadecimal/submissions/">数字转换为十六进制数</a>
+     */
+    public String toHex(int num) {
+        // 基础知识：计算机存储负数时是绝对值取反加1
+        if (num >= 0) {
+            return toHexString(num);
+        } else {
+            return toHexString(~Math.abs(num) + 1);
+        }
+    }
+
+    private String toHexString(int value) {
+        final StringBuilder builder = new StringBuilder();
+        boolean first = true;
+        for (int i = 7; i >= 0; i--) {
+            int low4Bit = (value >>> (i * 4)) & 0x0f;
+            System.out.println("4 bit = " + low4Bit);
+            if (low4Bit == 0 && first) {
+                continue;
+            }
+            first = false;
+            if (low4Bit < 10) {
+                builder.append((char) (low4Bit + '0'));
+            } else {
+                builder.append((char) (low4Bit - 10 + 'a'));
+            }
+        }
+        String result = builder.toString();
+        if ("".equals(result)) {
+            result = "0";
+        }
+        return result;
+    }
 }
