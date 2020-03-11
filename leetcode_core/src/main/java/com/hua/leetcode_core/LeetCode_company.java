@@ -1897,4 +1897,35 @@ public class LeetCode_company {
         }
         return s.length() - remainCount;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/fizz-buzz/">Fizz Buzz</a>
+     */
+    public List<String> fizzBuzz(int n) {
+        // 对每个数字取余，这貌似没啥考点啊。。。maybe取余比较耗时？
+        // 题解后记：这题的考点应该在于进阶问题，即问题升级为：
+        // 3 ---> "Fizz" , 5 ---> "Buzz", 7 ---> "Jazz"
+        // 可见，随着要对应的越多，if else会成倍增加，要优雅解决的话，
+        // 可以用追加法。即：能被3整除，字符串初始化为"Fizz"，能被5整除，则字符串追加"Buzz"，依此类推。
+        int lastFizzIndex = 0;
+        int lastBuzzIndex = 0;
+        final List<String> resultList = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            if (i - lastFizzIndex == 3 &&
+                    i - lastBuzzIndex == 5) {
+                resultList.add("FizzBuzz");
+                lastFizzIndex = i;
+                lastBuzzIndex = i;
+            } else if (i - lastFizzIndex == 3) {
+                resultList.add("Fizz");
+                lastFizzIndex = i;
+            } else if (i - lastBuzzIndex == 5) {
+                resultList.add("Buzz");
+                lastBuzzIndex = i;
+            } else {
+                resultList.add(i + "");
+            }
+        }
+        return resultList;
+    }
 }
