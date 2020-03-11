@@ -1861,4 +1861,40 @@ public class LeetCode_company {
         }
         return result;
     }
+
+    /**
+     * <a href = "https://leetcode-cn.com/problems/longest-palindrome/">最长回文串</a>
+     */
+    public int longestPalindrome(String s) {
+        // 事实上这个题貌似又是一个消消乐的问题
+        // 后记：因为有大小写字母，所以不能用一个数组保存count。
+        int[] countArray = new int['z' - 'a' + 1];
+        int[] countArray2 = new int['Z' - 'A' + 1];
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= 'a' && c <= 'z') {
+                countArray[c - 'a']++;
+                if (countArray[c - 'a'] == 2) {
+                    countArray[c - 'a'] = 0;
+                }
+            } else {
+                countArray2[c - 'A']++;
+                if (countArray2[c - 'A'] == 2) {
+                    countArray2[c - 'A'] = 0;
+                }
+            }
+        }
+        int remainCount = 0;
+        for (int count : countArray) {
+            remainCount += count;
+        }
+        for (int count : countArray2) {
+            remainCount += count;
+        }
+        if (remainCount > 0) {
+            // 如果有剩余，那么其中一个字符可以放到中间
+            remainCount--;
+        }
+        return s.length() - remainCount;
+    }
 }
