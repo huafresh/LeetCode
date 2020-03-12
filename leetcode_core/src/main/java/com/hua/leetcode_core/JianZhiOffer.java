@@ -50,4 +50,24 @@ public class JianZhiOffer {
         }
         return false;
     }
+
+    /**
+     * 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+     */
+    public String replaceSpace(StringBuffer str) {
+        // 此题感觉有些无聊，不知道考点在哪。。。
+        // 看了题解：
+        // 1、StringBuffer本身就有length和charAt等方法，因此先toString没必要。
+        String input = str.toString();
+        final StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (c == ' ') {
+                builder.append("%20");
+            } else {
+                builder.append(c);
+            }
+        }
+        return builder.toString();
+    }
 }
