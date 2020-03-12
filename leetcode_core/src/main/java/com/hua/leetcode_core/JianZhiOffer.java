@@ -1,5 +1,7 @@
 package com.hua.leetcode_core;
 
+import java.util.ArrayList;
+
 /**
  * @author zhangsh
  * @version V1.0
@@ -69,5 +71,31 @@ public class JianZhiOffer {
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
+     */
+    public ArrayList<Integer> printListFromTailToHead(ListNode listNode) {
+        // 两个方法：
+        // 1、省时间：用一个辅助栈
+        // 2、省空间：用list的add(0, value)方法，这个方法会移动数组，目测是更耗时的吧～～
+        // 看完题解还有个思路不错：即递归，递归的话要考虑栈溢出的问题，除此以外比1，2方法更优。
+        final ArrayList<Integer> resultList = new ArrayList<>();
+        ListNode curNode = listNode;
+        while (curNode != null) {
+            resultList.add(0, curNode.val);
+            curNode = curNode.next;
+        }
+        return resultList;
+    }
+
+    private static class ListNode {
+        int val;
+        ListNode next = null;
+
+        ListNode(int val) {
+            this.val = val;
+        }
     }
 }
