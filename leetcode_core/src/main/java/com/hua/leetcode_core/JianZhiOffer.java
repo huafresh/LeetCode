@@ -216,4 +216,21 @@ public class JianZhiOffer {
         return array[left];
     }
 
+    /**
+     * 大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。
+     * n<=39
+     */
+    public int Fibonacci(int n) {
+        // 斐波那契数列就是一个元素为前两个元素的和，比如：
+        // 1、1、2、3、5、8、13、21、34
+        // so，简单的递归一下就行了
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        return Fibonacci(n - 1) + Fibonacci(n - 2);
+    }
+
 }
