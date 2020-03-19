@@ -233,4 +233,44 @@ public class JianZhiOffer {
         return Fibonacci(n - 1) + Fibonacci(n - 2);
     }
 
+    /**
+     * 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
+     */
+    public int JumpFloor(int target) {
+        // 这题给的提示是递归，但是另一个比较经典的解决思路是动态规划，所以这里都实现一下。
+        return jumpFloorDp(target);
+    }
+
+    private int jumpFloorDp(int n) {
+        // dp(n) = dp(n-1)+dp(n-2)
+        if (n <= 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 2) {
+            return 2;
+        }
+        int dp2 = 1, dp1 = 2, dp = 0;
+        for (int i = 3; i <= n; i++) {
+            dp = dp2 + dp1;
+            dp2 = dp1;
+            dp1 = dp;
+        }
+        return dp;
+    }
+
+    private int jumpFloorRecursive(int target) {
+        if (target <= 0) {
+            return 0;
+        }
+        if (target == 1) {
+            return 1;
+        }
+        if (target == 2) {
+            return 2;
+        }
+        return jumpFloorRecursive(target - 1) + jumpFloorRecursive(target - 2);
+    }
 }
