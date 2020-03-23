@@ -683,4 +683,42 @@ public class LeetCode_Home {
 
         return result;
     }
+
+    public int maxProfit(int[] prices) {
+
+        // attention: [2,1,2,1,0,1,2]测试失败
+
+        int buy = -1;
+        int sell = -1;
+
+        if (prices.length < 2) {
+            return 0;
+        }
+
+        if (prices[0] < prices[1]) {
+            buy = 0;
+            sell = 1;
+        }
+
+        for (int i = 2; i < prices.length; i++) {
+            if (buy == -1) {
+                // 还没买入表示前面没有利润，注意此时价格一定是在跌。
+                if (prices[i] > prices[i - 1]) {
+                    buy = i - 1;
+                    sell = i;
+                }
+            } else {
+                if (prices[i] > prices[sell]) {
+                    // 第i天卖出，利润更大
+                    sell = i;
+                }
+            }
+        }
+
+        if (buy != -1) {
+            return prices[sell] - prices[buy];
+        } else {
+            return 0;
+        }
+    }
 }
