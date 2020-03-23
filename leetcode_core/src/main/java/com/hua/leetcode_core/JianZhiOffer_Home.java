@@ -31,4 +31,48 @@ public class JianZhiOffer_Home {
         // return 1<<(n-1);
     }
 
+    /**
+     * 矩阵覆盖。
+     * 我们可以用2*1的小矩形横着或者竖着去覆盖更大的矩形。请问用n个2*1的小矩形无重叠地覆盖一个2*n的大矩形，总共有多少种方法？
+     * 链接：https://www.nowcoder.com/practice/72a5a919508a4251859fb2cfb987a0e6?tpId=13&tqId=11163&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
+     */
+    public int RectCover(int target) {
+        // 提示都说递归了，那就先用递归搞一搞吧
+        // return rectCoverRecursive(target);
+        // 递归会有栈溢出的问题，其实大部分递归应该都是可以用迭代法解决的
+        return rectCoverLoop(target);
+    }
+
+    private int rectCoverLoop(int n) {
+        int prePre = 0; // 保存f(n-2)
+        int pre = 0; // 保存f(n-1)
+        int result = 0; // 保存f(n)
+        for (int i = 1; i <= n; i++) {
+            prePre = pre;
+            pre = result;
+            if (i == 1) {
+                result = 1;
+            } else if (i == 2) {
+                result = 2;
+            } else {
+                result = pre + prePre;
+            }
+        }
+        return result;
+    }
+
+    private int rectCoverRecursive(int n) {
+        if (n < 1) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else if (n == 2) {
+            return 2;
+        }
+        // 最终完成覆盖只有两种情况：
+        // 第一种是一个小矩形被竖着放到大矩形的末尾；
+        // 第二种情况是两个小矩形被横着一起放到大矩形的末尾。
+        // 由此可得递归公式：f(n) = f(n-1) + f(n-2);
+        return rectCoverRecursive(n - 1) + rectCoverRecursive(n - 2);
+    }
 }
