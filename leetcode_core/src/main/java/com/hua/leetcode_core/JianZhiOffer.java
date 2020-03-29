@@ -273,4 +273,32 @@ public class JianZhiOffer {
         }
         return jumpFloorRecursive(target - 1) + jumpFloorRecursive(target - 2);
     }
+
+    /**
+     * 输入一个整数，输出该数二进制表示中1的个数。其中负数用补码表示。
+     */
+    public int NumberOf1(int n) {
+        // 简单的就是for循环统计喽
+        // 复杂一点就按jdk的实现写一遍喽
+        return countOf1Loop(n);
+    }
+
+    private int countOf1JDK(int n) {
+        n = n - ((n >>> 1) & 0x55555555);
+        n = (n & 0x33333333) + ((n >>> 2) & 0x33333333);
+        n = (n + (n >>> 4)) & 0x0f0f0f0f;
+        n = (n + (n >>> 8));
+        n = (n + (n >>> 16));
+        return n & 0x3f;
+    }
+
+    private int countOf1Loop(int n) {
+        int sum = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((n & (1 << i)) != 0) {
+                sum++;
+            }
+        }
+        return sum;
+    }
 }
