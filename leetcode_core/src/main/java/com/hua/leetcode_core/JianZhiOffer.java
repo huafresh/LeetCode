@@ -301,4 +301,27 @@ public class JianZhiOffer {
         }
         return sum;
     }
+
+    /**
+     * 给定一个double类型的浮点数base和int类型的整数exponent。求base的exponent次方。
+     * 保证base和exponent不同时为0，且不要用库函数
+     */
+    public double Power(double base, int exp) {
+        // 实在是搞不懂这个题的考点在哪里。。。
+        // 看了下题解，原来考的是二分法，也算比较经典，因此详细解释已记笔记。
+
+        if (exp < 0) {
+            base = 1 / base;
+            exp = -exp;
+        }
+        double res = 1.0d;
+        while (exp > 0) {
+            if ((exp & 1) == 1) {
+                res *= base;
+            }
+            exp = exp >> 1;
+            base = base * base;
+        }
+        return res;
+    }
 }
