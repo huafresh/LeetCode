@@ -23,8 +23,11 @@ public class LeetCodeMain {
 //        int[] nums = new int[]{-10,-3,0,5,9};
 //        TreeNode node = new LeetCode_company().sortedArrayToBST(nums);
 
-        boolean palindrome = new LeetCode_company().isPalindrome("0P");
-        int result = new LeetCode_company().reverseBits(0b11111111111111111111111111111101);
+//        boolean palindrome = new LeetCode_company().isPalindrome("0P");
+//        int result = new LeetCode_company().reverseBits(0b11111111111111111111111111111101);
+
+        String infix = SuffixHelper.infixToSuffix("2*(9+6/3-5)+4");
+        System.out.println("infix=" + infix);
     }
 
 
