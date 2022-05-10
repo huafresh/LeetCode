@@ -232,8 +232,10 @@ public class LeetCodeMain {
         return set.size();
     }
 
-    private static final String[] MORSE_PWD = new String[]{".-", "-...", "-.-.", "-..", ".", "..-.", "--.",
-            "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-",
+    private static final String[] MORSE_PWD = new String[]{".-", "-...", "-.-.", "-..", ".", "..-" +
+            ".", "--.",
+            "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...",
+            "-", "..-", "...-",
             ".--", "-..-", "-.--", "--.."};
 
 
@@ -461,6 +463,19 @@ public class LeetCodeMain {
         return distance;
     }
 
+    public int jumpFloorDp(int n) {
+        // dp(n) = dp(n-1)+dp(n-2)
+        if (n <= 0) return 0;
+        if (n == 1) return 1;
+        if (n == 2) return 2;
+        int dp1 = 1, dp2 = 2, dp = 0;
+        for (int i = 3; i <= n; i++) {
+            dp = dp1 + dp2;
+            dp1 = dp2;
+            dp2 = dp;
+        }
+        return dp;
+    }
 
     /**
      * <a href="https://leetcode-cn.com/problems/sort-array-by-parity/comments/">按奇偶排序数组</a>
