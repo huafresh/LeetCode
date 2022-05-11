@@ -164,7 +164,7 @@ public class SortUtil {
      * 堆排序
      */
     public static void heapSort(int[] data) {
-        com.hua.datastructrue_java.MaxHeap heap = new com.hua.datastructrue_java.MaxHeap(data);
+        MaxHeap heap = new MaxHeap(data);
         for (int i = (data.length - 1); i >= 0; i--) {
             data[i] = heap.max();
         }
