@@ -606,38 +606,29 @@ public class LeetCodeMain {
      * <a href="https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/comments/">二叉树最大深度</a>
      */
     public int maxDepth(TreeNode root) {
-        //求二叉树最大深度，用层序遍历即可
-
-        int level = 0;
-        int count = 0;
-        //final Queue<TreeNode> queue = new LinkedBlockingQueue<>();
-        //用队列是最好的，但是leetcode网站不认识LinkedBlockingQueue这个类
-        //PS:LinkedList貌似可以当队列用！！！
-        final LinkedList<TreeNode> queue = new LinkedList<>();
-
-        if (root != null) {
-            queue.addLast(root);
-        }
-
-        TreeNode curNode = null;
+        // 解法一：递归，代码最简洁，同时速度也最快
+        // 解法二：层序遍历
+        if (root == null) return 0;
+        int depth = 0;
+        Queue<TreeNode> queue = new LinkedBlockingQueue<>();
+        queue.add(root);
         while (!queue.isEmpty()) {
-            count = queue.size();
+            int count = queue.size();
             while (count > 0) {
-                curNode = queue.pollFirst();
-                if (curNode != null) {
-                    if (curNode.left != null) {
-                        queue.addLast(curNode.left);
+                TreeNode node = queue.poll();
+                if (node != null) {
+                    if (node.left != null) {
+                        queue.add(node.left);
                     }
-                    if (curNode.right != null) {
-                        queue.addLast(curNode.right);
+                    if (node.right != null) {
+                        queue.add(node.right);
                     }
                 }
                 count--;
             }
-            level++;
+            depth++;
         }
-
-        return level;
+        return depth;
     }
 
     /**
