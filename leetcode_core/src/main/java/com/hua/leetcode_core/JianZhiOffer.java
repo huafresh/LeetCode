@@ -12,7 +12,8 @@ import java.util.Stack;
 public class JianZhiOffer {
 
     public static void main(String[] args) {
-        boolean exist = new JianZhiOffer().find(7, new int[][]{{1, 2, 8, 9}, {2, 4, 9, 12}, {4, 7, 10, 13}, {6, 8, 11, 15}});
+        boolean exist = new JianZhiOffer().find(7, new int[][]{{1, 2, 8, 9}, {2, 4, 9, 12}, {4, 7
+                , 10, 13}, {6, 8, 11, 15}});
         System.out.println("exist = " + exist);
 
         int[] pre = new int[]{1, 2, 4, 7, 3, 5, 6, 8};
@@ -243,35 +244,25 @@ public class JianZhiOffer {
 
     private int jumpFloorDp(int n) {
         // dp(n) = dp(n-1)+dp(n-2)
-        if (n <= 0) {
-            return 0;
+        if (n <= 2) {
+            return n;
         }
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 2) {
-            return 2;
-        }
-        int dp2 = 1, dp1 = 2, dp = 0;
+        int dp = 0; // dp(n)
+        int dp1 = 2; // dp(n-1)
+        int dp2 = 1; // dp(n-2)
         for (int i = 3; i <= n; i++) {
-            dp = dp2 + dp1;
+            dp = dp1 + dp2;
             dp2 = dp1;
             dp1 = dp;
         }
         return dp;
     }
 
-    private int jumpFloorRecursive(int target) {
-        if (target <= 0) {
-            return 0;
+    private int jumpFloorRecursive(int n) {
+        if (n <= 2) {
+            return n;
         }
-        if (target == 1) {
-            return 1;
-        }
-        if (target == 2) {
-            return 2;
-        }
-        return jumpFloorRecursive(target - 1) + jumpFloorRecursive(target - 2);
+        return jumpFloorRecursive(n - 1) + jumpFloorRecursive(n - 2);
     }
 
     /**
