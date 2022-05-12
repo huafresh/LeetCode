@@ -5,6 +5,8 @@ package com.hua.leetcode_core;
 // Copyright (c) 2022 Tencent. All rights reserved.
 //
 
+import java.util.Random;
+
 /**
  * leetcode 学习专题
  */
@@ -66,6 +68,34 @@ public class Practice {
         while (j >= 0) {
             nums1[k--] = nums2[j--];
         }
+    }
 
+    /**
+     * 打乱数组: https://leetcode.cn/leetbook/read/top-interview-questions-easy/xn6gq1/
+     */
+    public static class Solution {
+        private final int[] nums;
+
+        public Solution(int[] nums) {
+            this.nums = nums;
+        }
+
+        public int[] reset() {
+            if (nums == null) return null;
+            return nums.clone();
+        }
+
+        public int[] shuffle() {
+            if (nums == null) return null;
+            int[] copy = nums.clone();
+            Random random = new Random();
+            for (int i = 0; i < copy.length; i++) {
+                int off = random.nextInt(copy.length - i);
+                int tmp = copy[i];
+                copy[i] = copy[i + off];
+                copy[i + off] = tmp;
+            }
+            return copy;
+        }
     }
 }
