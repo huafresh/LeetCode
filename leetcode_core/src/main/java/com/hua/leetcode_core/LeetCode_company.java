@@ -634,12 +634,12 @@ public class LeetCode_company {
     public int hammingWeight(int n) {
         // jdk中就有方法可用啦，正好前两天复习了，看看现在能不能盲写出来。
         // 后记：看了题解，通过移位后的1作为mask用于确定n中对应位置上的bit是1还是0，是1的话就count加1，这种方式
-        // 更容易想到，如果记不起jdk的算法，倒是可以一试。
-        n = n - ((n >> 1) & 0x55555555);
-        n = (n & 0x33333333) + ((n >> 2) & 0x33333333);
-        n = (n + (n >> 4)) & 0x0f0f0f0f;
-        n = n + (n >> 8);
-        n = n + (n >> 16);
+        // 更容易想到，如果记不起jdk的算法，用此法简单很多。
+        n = n - ((n >>> 1) & 0x55555555);
+        n = (n & 0x33333333) + ((n >>> 2) & 0x33333333);
+        n = (n + (n >>> 4)) & 0x0f0f0f0f;
+        n = n + (n >>> 8);
+        n = n + (n >>> 16);
         return n & 0x3f;
     }
 
@@ -1316,7 +1316,8 @@ public class LeetCode_company {
         // 注意这个式子，是这个解法的精髓：
         // 首先，数组一开始全是0，当遍历时，secret中的数字会不断使对应index上的值增大，而guess中的数字则会不断使对应index的值减小，
         // 如果某个数字被完全猜中了，因此数组中的值会是0，和数组中的其他0混在一起了，因此无法统计。但是我们可以换个思路：数组中不为0的数的总和，
-        // 就是没有被猜中的数字的总和，而被猜的数字一共有secret.length()个，那么很显然secret.length() - nonZeroCount - aCount就是被猜中的数字个数。
+        // 就是没有被猜中的数字的总和，而被猜的数字一共有secret.length()个，那么很显然secret.length() - nonZeroCount -
+        // aCount就是被猜中的数字个数。
         // 减去aCount的原因是secret.length()是总的数字个数，包含了公牛数字。
         bCount = secret.length() - nonZeroCount - aCount;
         return aCount + "A" + bCount + "B";
@@ -1755,7 +1756,8 @@ public class LeetCode_company {
         return resultList;
     }
 
-    private void recursiveCollectBitPos(int bitPosValue, int offset, int num, List<String> resultList) {
+    private void recursiveCollectBitPos(int bitPosValue, int offset, int num,
+                                        List<String> resultList) {
         if (offset < num - 1) {
             // offset是当前正在处理的led等的偏移，最小是0，如果这个值比num小，
             // 那么说明剩余要分配的值比坑位多(注意要减1，因为offset可以和num相等)，说明当前路径是错误的，忽略之。
