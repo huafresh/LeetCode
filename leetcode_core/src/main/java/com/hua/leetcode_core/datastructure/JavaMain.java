@@ -1,6 +1,7 @@
 package com.hua.leetcode_core.datastructure;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -10,7 +11,8 @@ import java.util.Random;
  */
 
 public class JavaMain {
-private static int[] testArray = new int[]{138, 148, 9, 8, 71, 173, 111, 10, 156, 177, 39, 17, 8, 61, 123, 30, 28, 23, 104, 66};
+    private static int[] testArray = new int[]{138, 148, 9, 8, 71, 173, 111, 10, 156, 177, 39, 17
+            , 8, 61, 123, 30, 28, 23, 104, 66};
     private static int[] array = new int[]{
             97,
             38,
@@ -35,36 +37,30 @@ private static int[] testArray = new int[]{138, 148, 9, 8, 71, 173, 111, 10, 156
     };
 
     public static void main(String[] args) {
-        int[] data = new int[20];
-        Random random = new Random();
-        for (int i = 0; i < 20; i++) {
-            data[i] = random.nextInt(200);
-        }
+        Graph.Vertex[] vertices = new Graph.Vertex[4];
 
-        System.out.println("before sort: ");
-        printArray(data);
-        SortUtil.radixSort(data);
-        System.out.println("after sort: ");
-        printArray(data);
+        ArrayList<Graph.Edge> edges1 = new ArrayList<>();
+        edges1.add(new Graph.Edge(1));
+        edges1.add(new Graph.Edge(2));
+        edges1.add(new Graph.Edge(3));
+        vertices[0] = new Graph.Vertex(1, edges1);
 
-//        System.out.println("before rb sort:");
-//        printArray(data);
-//        SearchTree.sortWithRBTree(array);
-//        System.out.println("after rb sort:");
-//        printArray(array);
+        ArrayList<Graph.Edge> edges2 = new ArrayList<>();
+        vertices[1] = new Graph.Vertex(2, edges2);
 
-//        SearchTree<Integer> st = new SearchTree<>();
-//        for (int i : array) {
-//            st.insert(new TreeNode<Integer>(i));
-//        }
-//        st.graphPrint();
+        ArrayList<Graph.Edge> edges3 = new ArrayList<>();
+        edges3.add(new Graph.Edge(3));
+        vertices[2] = new Graph.Vertex(3, edges3);
 
-//        System.out.println(" __20__ ");
-//        System.out.println(" |     |");
-//        System.out.println("12     40");
+        ArrayList<Graph.Edge> edges4 = new ArrayList<>();
+        edges4.add(new Graph.Edge(0));
+        vertices[3] = new Graph.Vertex(4, edges4);
+
+        Graph graph = new Graph(vertices);
+        graph.breadthTraverse();
     }
 
-    public static void printArray(int[] data) {
+    private static void printArray(int[] data) {
         for (int i : data) {
             System.out.print(i + ", ");
         }
