@@ -838,66 +838,19 @@ public class LeetCodeMain {
      * <a href = "https://leetcode-cn.com/problems/reverse-integer/submissions/">整数反转</a>
      */
     private int reverse(int x) {
-        //官方题解: 用栈的思维做反转。期间加上整数溢出的判断
-        //如果 temp=rev⋅10+pop 导致溢出，那么一定有 rev≥INT_MAX​ / 10。
-        //如果 rev>INT_MAX / 10​，那么 temp=rev⋅10+pop 一定会溢出。
-        //如果 rev==INT_MAX / 10​，那么只要 pop>7，temp=rev⋅10+pop 就会溢出。
-        //（PS：7是INT_MAX的尾数，8是INT_MIN的尾数）
-        int rev = 0;
-        while (x != 0) {
-            int pop = x % 10;
-            x /= 10;
-
-            //当rev == INT_MAX / 10时，为什么只要pop>7才会溢出呢？根据上面的式子：
-            //temp = INT_MAX * 10 + pop
-            //那么pop只要大与0，temp就会溢出了啊。
-            //纠结了一点时间，最后恍然大悟：原来是整除和乘并不能划等号
-            //比如125整数10是12
-            //但是12乘10却是120
-            if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) {
+        int n = x;
+        int ret = 0;
+        while (n != 0) {
+            int tmp = ret * 10 + n % 10;
+            // 这里判断相乘后是否溢出，官方的题解中关于溢出的判断有一堆的证明逻辑，比较复杂。
+            // 这里选择的是相乘后再除回去看能否还原，不能话说明溢出了。
+            if (tmp / 10 != ret) {
                 return 0;
             }
-
-            if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) {
-                return 0;
-            }
-
-            rev = rev * 10 + pop;
+            ret = tmp;
+            n = n / 10;
         }
-
-
-//        android.permission.INTERNET  联网
-//        android.permission.CAMERA  拍照
-//        android.permission.READ_EXTERNAL_STORAGE  读取本地文件
-//        android.permission.WRITE_EXTERNAL_STORAGE  保存文件到本地
-//        android.permission.READ_PHONE_STATE  获取imei计算deviceId
-//        android.permission.ACCESS_WIFI_STATE 检查手机是否连接wifi
-//        android.permission.RECORD_AUDIO 录音
-//        android.permission.MODIFY_AUDIO_SETTINGS  修改手机音量
-//        android.permission.ACCESS_COARSE_LOCATION 定位需要
-//        android.permission.ACCESS_FINE_LOCATION 定位需要
-//        android.permission.VIBRATE  手机震动
-//        android.permission.REQUEST_INSTALL_PACKAGES  安装Apk
-//        android.permission.DOWNLOAD_WITHOUT_NOTIFICATION 下载更新包的时候不在通知栏显示
-//        android.permission.REORDER_TASKS
-//        android.permission.ACCESS_NETWORK_STATE 检查网络状态
-//
-//        android.permission.KILL_BACKGROUND_PROCESSES
-//        android.permission.CHANGE_NETWORK_STATE
-//        android.permission.CHANGE_WIFI_STATE
-//        android.permission.RECORD_VIDEO
-//        android.permission.RECEIVE_BOOT_COMPLETED
-//        android.permission.BLUETOOTH
-//        android.permission.SYSTEM_ALERT_WINDOW
-//        android.permission.WRITE_SETTINGS
-//        android.permission.READ_SETTINGS
-//        android.permission.GET_TASKS
-//        android.permission.READ_LOGS
-//        android.permission.CALL_PHONE 打电话
-
-        return rev;
-
-
+        return ret;
     }
 
 }
